@@ -2116,5 +2116,117 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "MoonSoon style",
+    "settings": [
+      {
+        "type": "header",
+        "content": "3D buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_button_3d",
+        "label": "Show 3D shadow on buttons",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "ms_button_3d_depth",
+        "label": "Shadow depth",
+        "min": 1,
+        "max": 8,
+        "step": 1,
+        "unit": "px",
+        "default": 4,
+        "visible_if": "{{ settings.ms_button_3d }}"
+      },
+      {
+        "type": "color",
+        "id": "ms_shadow_color",
+        "label": "Shadow and button outline color",
+        "default": "{{ settings.color_palette.color5 }}"
+      },
+      {
+        "type": "select",
+        "id": "ms_button_weight",
+        "label": "Button text weight",
+        "options": [
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semibold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          }
+        ],
+        "default": "700"
+      },
+      {
+        "type": "header",
+        "content": "Brand colors"
+      },
+      {
+        "type": "color",
+        "id": "ms_accent_color",
+        "label": "Accent (sale, badges, offers)",
+        "default": "{{ settings.color_palette.color6 }}"
+      },
+      {
+        "type": "color",
+        "id": "ms_accent_text_color",
+        "label": "Text on accent",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "ms_light_color",
+        "label": "Light brand background (header, strips)",
+        "default": "{{ settings.color_palette.color4 }}"
+      },
+      {
+        "type": "color",
+        "id": "ms_pale_color",
+        "label": "Pale background (sections, image boxes)",
+        "default": "{{ settings.color_palette.color2 }}"
+      },
+      {
+        "type": "color",
+        "id": "ms_highlight_color",
+        "label": "Highlight (delivery pill, quotes)",
+        "default": "{{ settings.color_palette.color7 }}"
+      },
+      {
+        "type": "header",
+        "content": "Product cards"
+      },
+      {
+        "type": "range",
+        "id": "ms_card_media_radius",
+        "label": "Image corner radius",
+        "min": 0,
+        "max": 32,
+        "step": 1,
+        "unit": "px",
+        "default": 20
+      },
+      {
+        "type": "color",
+        "id": "ms_card_media_background",
+        "label": "Image box background",
+        "default": "{{ settings.color_palette.color2 }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_hover_shadow",
+        "label": "Lift card with shadow on hover",
+        "default": true
+      }
+    ]
   }
 ]
