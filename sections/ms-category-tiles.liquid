@@ -1,0 +1,215 @@
+{% comment %}
+  MoonSoon category tiles: big rounded gradient cards with a product image and an arrow.
+  Image falls back to the collection image, then its first product.
+{% endcomment %}
+<div class="ms-sec" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--ms-pale)' }};">
+  <div class="ms-sec__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ms-sec__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <ul class="ms-tiles" style="--ms-tiles-cols: {{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign s = block.settings
+          assign c = s.collection
+          assign img = s.image
+          if img == blank and c != blank
+            assign img = c.image | default: c.products.first.featured_image
+          endif
+          assign title = s.title | default: c.title
+          assign link = c.url | default: s.link
+        -%}
+        <li {{ block.shopify_attributes }}>
+          <a
+            href="{{ link | default: '#' }}"
+            class="ms-tile"
+            style="--ms-tile-g1: {{ s.color_1 }}; --ms-tile-g2: {{ s.color_2 }};"
+          >
+            {%- if img != blank -%}
+              {{ img | image_url: width: 600 | image_tag: class: 'ms-tile__img', loading: 'lazy', alt: '', widths: '300, 450, 600', sizes: '(min-width: 750px) 25vw, 60vw' }}
+            {%- endif -%}
+            <span class="ms-tile__title">{{ title }}</span>
+            <span class="ms-tile__arrow" aria-hidden="true">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-tiles {
+    display: grid;
+    grid-template-columns: repeat(var(--ms-tiles-cols), 1fr);
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-tile {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3.3;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1.5px solid var(--ms-shadow-color);
+    background: linear-gradient(135deg, var(--ms-tile-g1), var(--ms-tile-g2));
+    box-shadow: var(--ms-btn-depth) var(--ms-btn-depth) 0 0 var(--ms-shadow-color);
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .ms-tile:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--ms-shadow-color);
+  }
+
+  .ms-tile__img {
+    position: absolute;
+    right: -4%;
+    bottom: -4%;
+    width: 72%;
+    height: 92%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 0.3s;
+  }
+
+  .ms-tile:hover .ms-tile__img {
+    transform: scale(1.05);
+  }
+
+  .ms-tile__title {
+    position: absolute;
+    left: 20px;
+    bottom: 18px;
+    max-width: 60%;
+    font-size: clamp(20px, 1.9vw, 28px);
+    line-height: 1.1;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+  }
+
+  .ms-tile__arrow {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-background);
+    color: var(--ms-card-title);
+  }
+
+  .ms-tile__arrow svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  @media (max-width: 989px) {
+    .ms-tiles {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 749px) {
+    .ms-tiles {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .ms-tile {
+      aspect-ratio: 16 / 6.4;
+    }
+
+    .ms-tile__img {
+      width: 48%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon category tiles",
+  "class": "ms-tiles-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "info": "Empty = Pale background from Theme settings"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Empty = collection name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (if no collection)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Empty = collection image or its first product"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Gradient color 1",
+          "default": "#7BC9A0"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Gradient color 2",
+          "default": "#DFF3E7"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon category tiles",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

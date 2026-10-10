@@ -1,0 +1,379 @@
+{% comment %}
+  MoonSoon product slider with up to 4 collection tabs. Uses the same product card as the rest of the theme
+  (static _product-card block), so card design and add to cart stay identical everywhere.
+  With one tab the tab bar is hidden (e.g. "New arrivals").
+{% endcomment %}
+{%- liquid
+  assign limit = section.settings.limit
+  assign tab_count = 0
+  for n in (1..4)
+    assign ck = 'collection_' | append: n
+    if section.settings[ck] != blank
+      assign tab_count = tab_count | plus: 1
+    endif
+  endfor
+-%}
+<div
+  class="ms-sec ms-ptabs"
+  style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }}; {% if section.settings.title_color != blank %}--ms-ptabs-title: {{ section.settings.title_color }};{% endif %}"
+  data-ms-tabs
+>
+  <div class="ms-sec__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ms-sec__title ms-ptabs__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="ms-sec__sub ms-ptabs__title">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if tab_count > 1 -%}
+      <div class="ms-ptabs__tabs" role="tablist">
+        {%- assign first = true -%}
+        {%- for n in (1..4) -%}
+          {%- assign ck = 'collection_' | append: n -%}
+          {%- assign lk = 'label_' | append: n -%}
+          {%- assign c = section.settings[ck] -%}
+          {%- if c != blank -%}
+            <button
+              type="button"
+              role="tab"
+              class="ms-ptabs__tab"
+              id="{{ section.id }}-tab-{{ n }}"
+              aria-controls="{{ section.id }}-panel-{{ n }}"
+              aria-selected="{{ first }}"
+              tabindex="{% if first %}0{% else %}-1{% endif %}"
+            >
+              {{ section.settings[lk] | default: c.title }}
+            </button>
+            {%- assign first = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- assign first = true -%}
+    {%- for n in (1..4) -%}
+      {%- assign ck = 'collection_' | append: n -%}
+      {%- assign c = section.settings[ck] -%}
+      {%- if c != blank -%}
+        <div
+          class="ms-ptabs__panel"
+          id="{{ section.id }}-panel-{{ n }}"
+          {% if tab_count > 1 %}role="tabpanel" aria-labelledby="{{ section.id }}-tab-{{ n }}"{% endif %}
+          {% unless first %}hidden{% endunless %}
+          data-ms-slider
+        >
+          <ul class="ms-slider__track" data-ms-track>
+            {%- for product in c.products limit: limit -%}
+              <li class="ms-slider__slide">
+                {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product, product_view_context: 'collection' %}
+              </li>
+            {%- endfor -%}
+          </ul>
+          <div class="ms-slider__nav">
+            <div class="ms-slider__progress"><span data-ms-progress></span></div>
+            <button type="button" class="ms-round-btn" data-ms-prev aria-label="{{ 'accessibility.slideshow_previous' | t }}">{{ 'icon-chevron-left.svg' | inline_asset_content }}</button>
+            <button type="button" class="ms-round-btn" data-ms-next aria-label="{{ 'accessibility.slideshow_next' | t }}">{{ 'icon-chevron-right.svg' | inline_asset_content }}</button>
+          </div>
+          {%- if section.settings.show_view_all -%}
+            <div class="ms-sec__cta">
+              <a class="button" href="{{ c.url }}">{{ section.settings.view_all_label }}</a>
+            </div>
+          {%- endif -%}
+        </div>
+        {%- assign first = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-ptabs__title {
+    color: var(--ms-ptabs-title, inherit);
+  }
+
+  .ms-ptabs__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 28px;
+    padding: 4px 4px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .ms-ptabs__tab {
+    flex: none;
+    height: 46px;
+    padding: 0 26px;
+    border: 1.5px solid var(--ms-card-title);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--ms-card-title);
+    font: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+  }
+
+  .ms-ptabs__tab[aria-selected='true'] {
+    background: var(--ms-light);
+    box-shadow: 3px 3px 0 0 var(--ms-shadow-color);
+  }
+
+  .ms-sec__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+  }
+
+  @media (max-width: 749px) {
+    .ms-ptabs__tabs {
+      justify-content: flex-start;
+      margin-inline: -16px;
+      padding-inline: 16px;
+    }
+
+    .ms-ptabs__tab {
+      height: 42px;
+      padding: 0 20px;
+      font-size: 15px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon product slider",
+  "class": "ms-ptabs-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Smart Picks For Every Home"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products per tab",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show \"View all\" button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "\"View all\" text",
+      "default": "View All"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "info": "Solid color or gradient"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "header",
+      "content": "Tab 1"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Tab name",
+      "info": "Empty = collection name"
+    },
+    {
+      "type": "header",
+      "content": "Tab 2"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Tab name"
+    },
+    {
+      "type": "header",
+      "content": "Tab 3"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "label_3",
+      "label": "Tab name"
+    },
+    {
+      "type": "header",
+      "content": "Tab 4"
+    },
+    {
+      "type": "collection",
+      "id": "collection_4",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "label_4",
+      "label": "Tab name"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon product slider",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 12,
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 60,
+            "border_radius": 28,
+            "padding-block-start": 10,
+            "padding-block-end": 16,
+            "padding-inline-start": 10,
+            "padding-inline-end": 10
+          },
+          "blocks": {
+            "product_card_gallery_677WP3": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 20,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_YXxMTj": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "ms_card_buy": {
+              "type": "buy-buttons",
+              "name": "Add to cart",
+              "settings": {
+                "stacking": true,
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {}
+            },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "ms_badges",
+            "product_card_gallery_677WP3",
+            "ms_rating",
+            "product_title_YXxMTj",
+            "ms_price",
+            "ms_card_buy"
+          ]
+        }
+      },
+      "block_order": []
+    }
+  ]
+}
+{% endschema %}

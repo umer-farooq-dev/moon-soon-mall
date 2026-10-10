@@ -1,0 +1,68 @@
+{% comment %}
+  MoonSoon brand quote: centered short message with a signature.
+{% endcomment %}
+<div class="ms-sec ms-quote" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner ms-quote__inner">
+    {%- if section.settings.quote != blank -%}
+      <blockquote class="ms-quote__text">{{ section.settings.quote }}</blockquote>
+    {%- endif -%}
+    {%- if section.settings.signature != blank -%}
+      <p class="ms-quote__sign">{{ section.settings.signature }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-quote__inner {
+    max-width: 760px;
+    text-align: center;
+  }
+
+  .ms-quote__text {
+    margin: 0 0 16px;
+    font-size: clamp(17px, 1.6vw, 22px);
+    line-height: 1.6;
+  }
+
+  .ms-quote__text p {
+    margin: 0;
+  }
+
+  .ms-quote__sign {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon quote",
+  "class": "ms-quote-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "quote",
+      "label": "Quote",
+      "default": "<p>“Useful things, honest prices and delivery to your door. We pick every product as if it were for our own home.”</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "signature",
+      "label": "Signature",
+      "default": "With love,\nTeam MoonSoonMall 💚"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon quote"
+    }
+  ]
+}
+{% endschema %}
