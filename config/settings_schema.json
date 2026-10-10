@@ -2255,6 +2255,16 @@
         "default": "contain"
       },
       {
+        "type": "range",
+        "id": "ms_card_image_padding",
+        "label": "Space around product image",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "default": 6
+      },
+      {
         "type": "color",
         "id": "ms_card_title_color",
         "label": "Title and price color",
@@ -2328,6 +2338,18 @@
         "id": "ms_card_sale_bg",
         "label": "Sticker color",
         "default": "{{ settings.color_palette.color7 }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_sale_spin",
+        "label": "Rotate sticker (animation)",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "ms_card_sale_image",
+        "label": "Custom sticker image (GIF/PNG)",
+        "info": "Optional. Replaces the built-in sticker."
       },
       {
         "type": "checkbox",
