@@ -278,14 +278,15 @@
         "limit": 10,
         "show_view_all": true,
         "view_all_label": "View All",
-        "collection_1": "kitchen-dining",
-        "label_1": "Kitchen",
-        "collection_2": "electronics-gadgets",
-        "label_2": "Gadgets",
-        "collection_3": "beauty-care",
-        "label_3": "Beauty",
-        "collection_4": "under-999",
-        "label_4": "Under Rs 999"
+        "collection_1": "best-sellers",
+        "label_1": "Best Sellers",
+        "collection_2": "kitchen-dining",
+        "label_2": "Kitchen",
+        "collection_3": "electronics-gadgets",
+        "label_3": "Gadgets",
+        "collection_4": "beauty-care",
+        "label_4": "Beauty",
+        "rating_text": "1,000+ Happy Customers"
       }
     },
     "new": {
@@ -478,19 +479,27 @@
       "blocks": {
         "v1": {
           "type": "video",
-          "settings": {}
+          "settings": {
+            "product": "mini-ac-cooling-fan"
+          }
         },
         "v2": {
           "type": "video",
-          "settings": {}
+          "settings": {
+            "product": "t800-ultra-smart-watch"
+          }
         },
         "v3": {
           "type": "video",
-          "settings": {}
+          "settings": {
+            "product": "portable-blender-juicer-bottle"
+          }
         },
         "v4": {
           "type": "video",
-          "settings": {}
+          "settings": {
+            "product": "design-ultra-deep-massage-gun"
+          }
         }
       },
       "block_order": [
@@ -500,12 +509,138 @@
         "v4"
       ],
       "settings": {
-        "heading": "See It In Action"
+        "heading": "See It In Action 🎬",
+        "show_empty": true,
+        "add_label": "Add to cart"
       }
     },
     "quote": {
       "type": "ms-quote",
       "settings": {}
+    },
+    "results": {
+      "type": "ms-results",
+      "settings": {
+        "heading": "Results You Can See 💚",
+        "subheading": "Real customers. Real products. No filters.",
+        "button_label": "Read All Reviews",
+        "button_link": "shopify://collections/best-sellers"
+      },
+      "blocks": {
+        "r0": {
+          "type": "result",
+          "settings": {
+            "name": "Customer name",
+            "badge": "Verified",
+            "quote": "Write what the customer said about the product here.",
+            "product": "mini-ac-cooling-fan"
+          }
+        },
+        "r1": {
+          "type": "result",
+          "settings": {
+            "name": "Customer name",
+            "badge": "Verified",
+            "quote": "Write what the customer said about the product here.",
+            "product": "t800-ultra-smart-watch"
+          }
+        },
+        "r2": {
+          "type": "result",
+          "settings": {
+            "name": "Customer name",
+            "badge": "Verified",
+            "quote": "Write what the customer said about the product here.",
+            "product": "portable-blender-juicer-bottle"
+          }
+        },
+        "r3": {
+          "type": "result",
+          "settings": {
+            "name": "Customer name",
+            "badge": "Verified",
+            "quote": "Write what the customer said about the product here.",
+            "product": "design-ultra-deep-massage-gun"
+          }
+        }
+      },
+      "block_order": [
+        "r0",
+        "r1",
+        "r2",
+        "r3"
+      ]
+    },
+    "promo": {
+      "type": "ms-promo-banner",
+      "settings": {
+        "heading": "Not Sure What To Buy? 🎁",
+        "text": "<p>Tell us who it's for and your budget. Our team will suggest the perfect useful gift for your home, family or friends.</p>",
+        "button_label": "Shop Gifts",
+        "button_link": "shopify://collections/gifts",
+        "image_position": "right",
+        "text_color": "#FFFFFF",
+        "color_1": "#1F6B45",
+        "color_2": "#7BC9A0"
+      }
+    },
+    "reviews": {
+      "type": "ms-reviews",
+      "settings": {
+        "heading": "Verified Customer Reviews 🌼"
+      },
+      "blocks": {
+        "v0": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Review title",
+            "text": "Paste a real customer review here.",
+            "name": "Customer name",
+            "verified": true,
+            "product": "mini-ac-cooling-fan"
+          }
+        },
+        "v1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Review title",
+            "text": "Paste a real customer review here.",
+            "name": "Customer name",
+            "verified": true,
+            "product": "t800-ultra-smart-watch"
+          }
+        },
+        "v2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Review title",
+            "text": "Paste a real customer review here.",
+            "name": "Customer name",
+            "verified": true,
+            "product": "portable-blender-juicer-bottle"
+          }
+        },
+        "v3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Review title",
+            "text": "Paste a real customer review here.",
+            "name": "Customer name",
+            "verified": true,
+            "product": "design-ultra-deep-massage-gun"
+          }
+        }
+      },
+      "block_order": [
+        "v0",
+        "v1",
+        "v2",
+        "v3"
+      ]
     }
   },
   "order": [
@@ -514,6 +649,9 @@
     "tiles",
     "picks",
     "new",
+    "results",
+    "promo",
+    "reviews",
     "deals",
     "videos",
     "quote"

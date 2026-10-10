@@ -71,9 +71,19 @@
             "link": "shopify://collections/new-arrivals",
             "background": "#DFF3E7"
           }
+        },
+        "c1": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Best Sellers",
+            "subtitle": "Our most loved products",
+            "link": "shopify://collections/best-sellers",
+            "background": "#DFF3E7"
+          }
         }
       },
       "block_order": [
+        "c1",
         "c3",
         "c2"
       ],
@@ -85,8 +95,8 @@
         "logo_width_mobile": 130,
         "show_search": true,
         "search_placeholder": "Search products",
-        "search_collection": "new-arrivals",
-        "cta_label": "",
+        "search_collection": "best-sellers",
+        "cta_label": "Best Sellers",
         "cta_link": "shopify://collections/best-sellers",
         "cart_label": "Cart"
       }

@@ -10,7 +10,7 @@
     endif
   endfor
 -%}
-{%- if has_media or request.design_mode -%}
+{%- if has_media or request.design_mode or section.settings.show_empty -%}
   <div class="ms-sec ms-videos" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }};">
     <div class="ms-sec__inner">
       {%- if section.settings.heading != blank -%}
@@ -31,20 +31,38 @@
                     </button>
                   {%- elsif s.image != blank -%}
                     {{ s.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.caption }}
+                  {%- elsif p.featured_image -%}
+                    {{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: p.title, class: 'ms-vcard__poster' }}
                   {%- else -%}
                     {{ 'image' | placeholder_svg_tag: 'ms-vcard__ph' }}
                   {%- endif -%}
                 </div>
                 {%- if p != blank -%}
+                  {%- liquid
+                    assign v = p.selected_or_first_available_variant
+                    assign r = p.metafields.reviews.rating.value
+                    assign rc = p.metafields.reviews.rating_count.value | default: 0
+                  -%}
                   <a href="{{ p.url }}" class="ms-vcard__product">
                     {%- if p.featured_image -%}
                       {{ p.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
                     {%- endif -%}
                     <span>
+                      {%- if rc > 0 or settings.ms_card_show_empty_stars -%}
+                        {%- assign pct = r.rating | default: 0 | times: 100.0 | divided_by: 5 -%}
+                        <span class="ms-card-rating__stars" style="--ms-rating: {{ pct }}%;" aria-hidden="true">
+                          <span>★★★★★</span><span class="ms-card-rating__fill">★★★★★</span>
+                        </span>
+                        {%- if rc > 0 -%}<small> ({{ rc }})</small>{%- endif -%}
+                      {%- endif -%}
                       <strong>{{ p.title }}</strong>
-                      <span class="ms-vcard__price">{{ p.price | money_without_trailing_zeros }}</span>
                     </span>
                   </a>
+                  {%- if v.available -%}
+                    <button type="button" class="button ms-vcard__add" data-ms-add="{{ v.id }}">
+                      {{- section.settings.add_label }} | {{ v.price | money_without_trailing_zeros -}}
+                    </button>
+                  {%- endif -%}
                 {%- elsif s.caption != blank -%}
                   <p class="ms-vcard__caption">{{ s.caption }}</p>
                 {%- endif -%}
@@ -140,8 +158,14 @@
     line-height: 1.25;
   }
 
-  .ms-vcard__price {
-    font-weight: 700;
+  .ms-vcard__add {
+    width: 100%;
+    padding-block: 10px;
+    font-size: 14px;
+  }
+
+  .ms-vcard__product .ms-card-rating__stars {
+    font-size: 13px;
   }
 
   .ms-vcard__caption {
@@ -167,6 +191,19 @@
       "id": "heading",
       "label": "Heading",
       "default": "See It In Action"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Add button text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_empty",
+      "label": "Show even without videos",
+      "info": "Uses the product photo until a video is added",
+      "default": true
     },
     {
       "type": "color",
