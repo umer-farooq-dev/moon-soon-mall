@@ -92,7 +92,19 @@
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-ms-video-toggle]');
     if (!btn) return;
-    const video = btn.closest('[data-ms-video]').querySelector('video');
+    const media = btn.closest('[data-ms-video]');
+    // YouTube / Vimeo: swap the cover for the player on first click
+    if (btn.dataset.msEmbed) {
+      const frame = document.createElement('iframe');
+      frame.src = btn.dataset.msEmbed;
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      btn.parentElement.replaceChildren(frame);
+      return;
+    }
+    const video = media.querySelector('video');
+    if (!video) return;
+    video.onended = () => btn.classList.remove('is-playing');
     if (video.paused) {
       document.querySelectorAll('[data-ms-video] video').forEach((v) => v !== video && v.pause());
       video.muted = false;

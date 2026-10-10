@@ -5,7 +5,7 @@
 {%- liquid
   assign has_media = false
   for block in section.blocks
-    if block.settings.video != blank or block.settings.image != blank
+    if block.settings.video != blank or block.settings.video_url != blank or block.settings.image != blank
       assign has_media = true
     endif
   endfor
@@ -23,18 +23,41 @@
             {%- assign p = s.product -%}
             <li class="ms-slider__slide" {{ block.shopify_attributes }}>
               <div class="ms-vcard" data-ms-video>
-                <div class="ms-vcard__media">
-                  {%- if s.video != blank -%}
-                    {{ s.video | video_tag: muted: true, loop: true, playsinline: true, preload: 'metadata', image_size: '600x' }}
-                    <button type="button" class="ms-vcard__play" data-ms-video-toggle aria-label="{{ 'accessibility.play_video' | t }}">
-                      {{ 'icon-play.svg' | inline_asset_content }}
-                    </button>
-                  {%- elsif s.image != blank -%}
-                    {{ s.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.caption }}
-                  {%- elsif p.featured_image -%}
-                    {{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: p.title, class: 'ms-vcard__poster' }}
+                {%- liquid
+                  assign vid = s.video
+                  if vid == blank and s.video_url == blank and p != blank
+                    for m in p.media
+                      if m.media_type == 'video'
+                        assign vid = m
+                        break
+                      endif
+                    endfor
+                  endif
+                  assign poster = s.image | default: vid.preview_image | default: p.featured_image
+                  assign alt_text = p.title | default: s.caption
+                  assign has_video = false
+                  if vid != blank or s.video_url != blank
+                    assign has_video = true
+                  endif
+                -%}
+                <div class="ms-vcard__media{% if has_video == false and s.image == blank %} ms-vcard__media--product{% endif %}">
+                  {%- if vid != blank -%}
+                    {{ vid | video_tag: loop: true, playsinline: true, preload: 'metadata', image_size: '720x' }}
+                  {%- elsif poster != blank -%}
+                    {{ poster | image_url: width: 720 | image_tag: loading: 'lazy', alt: alt_text, class: 'ms-vcard__poster' }}
                   {%- else -%}
                     {{ 'image' | placeholder_svg_tag: 'ms-vcard__ph' }}
+                  {%- endif -%}
+                  {%- if has_video -%}
+                    <button
+                      type="button"
+                      class="ms-vcard__play"
+                      data-ms-video-toggle
+                      {% if vid == blank %}data-ms-embed="{{ s.video_url | external_video_url: autoplay: true, playsinline: true, rel: 0 }}"{% endif %}
+                      aria-label="{{ 'accessibility.play_video' | t }}"
+                    >
+                      <span>{{ 'icon-play.svg' | inline_asset_content }}</span>
+                    </button>
                   {%- endif -%}
                 </div>
                 {%- if p != blank -%}
@@ -88,25 +111,42 @@
   .ms-vcard {
     display: grid;
     gap: 12px;
-    padding: 10px;
-    border: 1.5px solid var(--ms-card-border);
+    height: 100%;
+    padding: 10px 10px 12px;
+    border: 1.5px solid var(--ms-shadow-color);
     border-radius: 24px;
-    background: var(--color-background);
+    background: var(--ms-pale);
   }
 
   .ms-vcard__media {
     position: relative;
-    aspect-ratio: 9 / 13;
+    aspect-ratio: 9 / 12.5;
     overflow: hidden;
+    border: 1px solid var(--ms-card-border);
     border-radius: 18px;
-    background: var(--ms-pale);
+    background: #000;
+  }
+
+  .ms-vcard__media--product {
+    background: #fff;
   }
 
   .ms-vcard__media :is(video, img, svg) {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+  }
+
+  .ms-vcard__media--product img {
+    padding: 14px;
+    object-fit: contain;
+  }
+
+  .ms-vcard__media iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
   .ms-vcard__play {
@@ -114,21 +154,35 @@
     inset: 0;
     display: grid;
     place-items: center;
+    padding: 0;
     border: 0;
     background: transparent;
     cursor: pointer;
   }
 
-  .ms-vcard__play svg {
-    width: 58px;
-    height: 58px;
-    padding: 16px;
+  .ms-vcard__play span {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
-    background: rgb(255 255 255 / 0.85);
+    background: rgb(255 255 255 / 0.92);
     color: var(--ms-card-title);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.2);
+    transition: transform 0.15s, opacity 0.2s;
   }
 
-  .ms-vcard__play.is-playing svg {
+  .ms-vcard__play:hover span {
+    transform: scale(1.08);
+  }
+
+  .ms-vcard__play svg {
+    width: 22px;
+    height: 22px;
+    margin-left: 3px;
+  }
+
+  .ms-vcard__play.is-playing span {
     opacity: 0;
   }
 
@@ -141,8 +195,10 @@
   }
 
   .ms-vcard__product img {
-    width: 52px;
-    height: 52px;
+    flex: none;
+    width: 64px;
+    height: 64px;
+    padding: 4px;
     object-fit: contain;
     border: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
     border-radius: 10px;
@@ -223,9 +279,16 @@
           "info": "Vertical (9:16) videos look best"
         },
         {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Or YouTube / Vimeo link",
+          "accept": ["youtube", "vimeo"]
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Image (if no video)"
+          "label": "Cover image",
+          "info": "Shown before play. Empty = video frame or product photo. No video = product's own video if it has one."
         },
         {
           "type": "product",

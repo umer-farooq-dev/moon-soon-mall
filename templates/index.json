@@ -522,59 +522,6 @@
       "type": "ms-quote",
       "settings": {}
     },
-    "results": {
-      "type": "ms-results",
-      "settings": {
-        "heading": "Results You Can See 💚",
-        "subheading": "Real customers. Real products. No filters.",
-        "button_label": "Read All Reviews",
-        "button_link": "shopify://collections/best-sellers"
-      },
-      "blocks": {
-        "r0": {
-          "type": "result",
-          "settings": {
-            "name": "Customer name",
-            "badge": "Verified",
-            "quote": "Write what the customer said about the product here.",
-            "product": "mini-ac-cooling-fan"
-          }
-        },
-        "r1": {
-          "type": "result",
-          "settings": {
-            "name": "Customer name",
-            "badge": "Verified",
-            "quote": "Write what the customer said about the product here.",
-            "product": "t800-ultra-smart-watch"
-          }
-        },
-        "r2": {
-          "type": "result",
-          "settings": {
-            "name": "Customer name",
-            "badge": "Verified",
-            "quote": "Write what the customer said about the product here.",
-            "product": "portable-blender-juicer-bottle"
-          }
-        },
-        "r3": {
-          "type": "result",
-          "settings": {
-            "name": "Customer name",
-            "badge": "Verified",
-            "quote": "Write what the customer said about the product here.",
-            "product": "design-ultra-deep-massage-gun"
-          }
-        }
-      },
-      "block_order": [
-        "r0",
-        "r1",
-        "r2",
-        "r3"
-      ]
-    },
     "promo": {
       "type": "ms-promo-banner",
       "settings": {
@@ -653,7 +600,6 @@
     "tiles",
     "picks",
     "new",
-    "results",
     "promo",
     "reviews",
     "deals",
