@@ -24,35 +24,55 @@
       assign pct_key = 'save_' | append: i
       assign perks_key = 'perks_' | append: i
       assign pct = s[pct_key]
-      assign full = variant.price | times: qty
       assign keep = 100 | minus: pct
-      assign price = full | times: keep | divided_by: 100
+      assign full = variant.price | times: qty
+      assign price = full | times: keep | divided_by: 100 | divided_by: 100 | times: 100
       assign was = variant.compare_at_price | default: variant.price | times: qty
+      if was < full
+        assign was = full
+      endif
       assign perks = s[perks_key] | newline_to_br | split: '<br />'
+      assign img = variant.featured_image | default: product.featured_image
+      assign shown = qty | at_most: 3
     -%}
     <label class="ms-offer-box{% if pct > 0 %} ms-offer-box--deal{% endif %}">
       {%- if s[tag_key] != blank -%}
-        <span class="ms-offer-box__tag">
+        <span class="ms-offer-box__head">
           {{- s[tag_key] -}}
           {%- if pct > 0 -%}<em>{{ s.save_text | replace: '[percent]', pct }}</em>{%- endif -%}
         </span>
       {%- endif -%}
-      <span class="ms-offer-box__row">
-        <input type="radio" name="ms-offer-{{ block.id }}" value="{{ qty }}" {% if forloop.first %}checked{% endif %}>
-        <span class="ms-offer-box__title">{{ s[title_key] | default: qty }}</span>
-        <span class="ms-offer-box__price">
-          <strong>{{ price | money_without_trailing_zeros }}</strong>
-          {%- if was > price -%}<s>{{ was | money_without_trailing_zeros }}</s>{%- endif -%}
+      <span class="ms-offer-box__main">
+        <input
+          type="radio"
+          name="ms-offer-{{ block.id }}"
+          value="{{ qty }}"
+          data-price="{{ price | money_without_trailing_zeros }}"
+          {% if forloop.first %}checked{% endif %}
+        >
+        <span class="ms-offer-box__info">
+          <span class="ms-offer-box__title">{{ s[title_key] | default: qty }}</span>
+          <span class="ms-offer-box__price">
+            <strong>{{ price | money_without_trailing_zeros }}</strong>
+            {%- if was > price -%}<s>{{ was | money_without_trailing_zeros }}</s>{%- endif -%}
+          </span>
+          {%- if s[perks_key] != blank -%}
+            <span class="ms-offer-box__perks">
+              {%- for perk in perks -%}
+                {%- assign t = perk | strip -%}
+                {%- if t != blank -%}<span>{{ t }}</span>{%- endif -%}
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
         </span>
+        {%- if img != blank and s.show_image -%}
+          <span class="ms-offer-box__img" style="--n: {{ shown }};">
+            {%- for n in (1..shown) -%}
+              {{ img | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
       </span>
-      {%- if s[perks_key] != blank -%}
-        <ul class="ms-offer-box__perks">
-          {%- for perk in perks -%}
-            {%- assign t = perk | strip -%}
-            {%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
     </label>
   {%- endfor -%}
 </fieldset>
@@ -71,6 +91,7 @@
       "id": "heading",
       "label": "Heading"
     },
+    { "type": "checkbox", "id": "show_image", "label": "Show product photo in boxes", "default": true },
     {
       "type": "text",
       "id": "save_text",
@@ -83,7 +104,7 @@
     },
     { "type": "range", "id": "qty_1", "label": "Quantity", "min": 0, "max": 10, "step": 1, "default": 1 },
     { "type": "text", "id": "title_1", "label": "Title", "default": "1 Pack" },
-    { "type": "text", "id": "tag_1", "label": "Tag", "default": "Most Popular" },
+    { "type": "text", "id": "tag_1", "label": "Tag", "default": "Bestseller Pick" },
     { "type": "range", "id": "save_1", "label": "Save %", "min": 0, "max": 50, "step": 1, "default": 0 },
     { "type": "textarea", "id": "perks_1", "label": "Perks (one per line)", "default": "Cash on Delivery\nEasy 7-day exchange" },
     {

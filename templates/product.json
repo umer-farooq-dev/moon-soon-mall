@@ -18,17 +18,17 @@
           "settings": {
             "media_presentation": "carousel",
             "media_columns": "two",
-            "image_gap": 8,
+            "image_gap": 12,
             "large_first_image": false,
             "icons_style": "arrow",
-            "slideshow_controls_style": "counter",
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "bottom",
-            "thumbnail_width": 44,
-            "aspect_ratio": "square",
+            "thumbnail_position": "left",
+            "thumbnail_width": 72,
+            "aspect_ratio": "1",
             "constrain_to_viewport": true,
             "media_fit": "contain",
-            "media_radius": 20,
+            "media_radius": 24,
             "extend_media": false,
             "zoom": true,
             "video_loop": false,
@@ -50,7 +50,7 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 28,
+            "gap": 18,
             "sticky_details_desktop": true,
             "background_media": "none",
             "video_position": "cover",
@@ -76,7 +76,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 14,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -128,27 +128,6 @@
                   },
                   "blocks": {}
                 },
-                "price_tVjtKg": {
-                  "type": "price",
-                  "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": true,
-                    "show_tax_info": true,
-                    "type_preset": "paragraph",
-                    "width": "100%",
-                    "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "padding-block-start": 4,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
                 "ms_badges": {
                   "type": "ms-pdp-badges",
                   "settings": {
@@ -162,27 +141,26 @@
                     "sold_text": "[count]+ Sold",
                     "reviews_anchor": "reviews"
                   }
+                },
+                "ms_price": {
+                  "type": "ms-pdp-price",
+                  "settings": {
+                    "show_percent": true,
+                    "percent_text": "Save [percent]%"
+                  }
+                },
+                "ms_intro": {
+                  "type": "ms-pdp-intro",
+                  "settings": {}
                 }
               },
               "block_order": [
                 "ms_badges",
                 "text_xpVMaM",
                 "ms_rating",
-                "price_tVjtKg"
+                "ms_price",
+                "ms_intro"
               ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color3 }}",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
             },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
@@ -213,7 +191,8 @@
                   "type": "quantity",
                   "static": true,
                   "settings": {},
-                  "blocks": {}
+                  "blocks": {},
+                  "disabled": true
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
@@ -234,35 +213,54 @@
             },
             "ms_benefits": {
               "type": "ms-pdp-benefits",
-              "settings": {}
+              "settings": {
+                "from_description": true,
+                "max": 3
+              }
             },
             "ms_offers": {
               "type": "ms-pdp-offers",
-              "settings": {}
+              "settings": {
+                "show_image": true,
+                "tag_1": "Bestseller Pick",
+                "perks_1": "🚚 Cash on Delivery\n🔁 Easy 7-day exchange",
+                "tag_2": "Best Deal",
+                "save_2": 5,
+                "perks_2": "🚚 Cash on Delivery\n🔁 Easy 7-day exchange\n🎁 Best value"
+              }
             },
             "ms_delivery": {
               "type": "ms-pdp-delivery",
-              "settings": {}
+              "settings": {
+                "text": "Estimated delivery time: [from] - [to]",
+                "date_format": "%-d %B"
+              }
             },
             "ms_pair": {
               "type": "ms-pdp-pair",
-              "settings": {}
+              "settings": {
+                "auto": true
+              }
             },
             "ms_acc": {
               "type": "ms-pdp-accordion",
-              "settings": {}
+              "settings": {
+                "title_1": "Product Details",
+                "source_1": "description",
+                "title_6": "Shipping & Return",
+                "page_6": "shipping-returns"
+              }
             }
           },
           "block_order": [
             "group_icgrde",
             "ms_benefits",
-            "divider_VJhene",
             "variant_picker_R3rGDr",
             "ms_offers",
-            "buy_buttons_eYQEYi",
             "ms_delivery",
-            "ms_pair",
-            "ms_acc"
+            "buy_buttons_eYQEYi",
+            "ms_acc",
+            "ms_pair"
           ]
         },
         "disclosures": {
@@ -280,7 +278,7 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
         "padding-block-start": 0,

@@ -1,0 +1,31 @@
+{% doc %}
+  MoonSoon product page price: big price, struck compare-at price and a % off pill.
+{% enddoc %}
+{%- liquid
+  assign v = closest.product.selected_or_first_available_variant
+  assign pct = 0
+  if v.compare_at_price > v.price
+    assign pct = v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price
+  endif
+-%}
+<div class="ms-pdp-price" {{ block.shopify_attributes }}>
+  <strong class="ms-pdp-price__now">{{ v.price | money_without_trailing_zeros }}</strong>
+  {%- if pct > 0 -%}
+    <s class="ms-pdp-price__was">{{ v.compare_at_price | money_without_trailing_zeros }}</s>
+    {%- if block.settings.show_percent -%}
+      <span class="ms-pdp-price__off">{{ block.settings.percent_text | replace: '[percent]', pct }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "MoonSoon price",
+  "tag": null,
+  "settings": [
+    { "type": "checkbox", "id": "show_percent", "label": "Show % off", "default": true },
+    { "type": "text", "id": "percent_text", "label": "% off text", "default": "Save [percent]%" }
+  ],
+  "presets": [{ "name": "MoonSoon price" }]
+}
+{% endschema %}
