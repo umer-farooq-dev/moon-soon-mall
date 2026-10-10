@@ -7,7 +7,7 @@
     {%- if section.settings.heading != blank -%}
       <h2 class="ms-sec__title">{{ section.settings.heading }}</h2>
     {%- endif -%}
-    <ul class="ms-tiles" style="--ms-tiles-cols: {{ section.settings.columns }};">
+    <ul class="ms-tiles" style="--ms-tiles-cols: {{ section.settings.columns }}; --ms-tile-ratio: {{ section.settings.ratio }}; --ms-tile-ratio-m: {{ section.settings.ratio_mobile }}; --ms-tile-title: {{ section.settings.title_size }}px;">
       {%- for block in section.blocks -%}
         {%- liquid
           assign s = block.settings
@@ -50,11 +50,11 @@
   .ms-tile {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 3.3;
+    aspect-ratio: var(--ms-tile-ratio);
     overflow: hidden;
-    border-radius: 24px;
-    border: 1.5px solid var(--ms-shadow-color);
-    background: linear-gradient(135deg, var(--ms-tile-g1), var(--ms-tile-g2));
+    border-radius: 18px;
+    border: 1px solid var(--ms-shadow-color);
+    background: linear-gradient(100deg, var(--ms-tile-g1), var(--ms-tile-g2));
     box-shadow: var(--ms-btn-depth) var(--ms-btn-depth) 0 0 var(--ms-shadow-color);
     text-decoration: none;
     transition: transform 0.15s, box-shadow 0.15s;
@@ -62,52 +62,53 @@
 
   .ms-tile:hover {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 0 var(--ms-shadow-color);
+    box-shadow: 1px 1px 0 0 var(--ms-shadow-color);
   }
 
   .ms-tile__img {
     position: absolute;
-    right: -4%;
-    bottom: -4%;
-    width: 72%;
-    height: 92%;
+    right: 8%;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
     object-fit: contain;
+    object-position: bottom right;
     mix-blend-mode: multiply;
     transition: transform 0.3s;
   }
 
   .ms-tile:hover .ms-tile__img {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
   .ms-tile__title {
     position: absolute;
-    left: 20px;
-    bottom: 18px;
-    max-width: 60%;
-    font-size: clamp(20px, 1.9vw, 28px);
-    line-height: 1.1;
+    left: 16px;
+    bottom: 14px;
+    max-width: 62%;
+    font-size: var(--ms-tile-title);
+    line-height: 1.15;
     font-weight: 800;
     color: #fff;
-    text-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+    text-shadow: 0 1px 6px rgb(0 0 0 / 0.25);
   }
 
   .ms-tile__arrow {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    right: 10px;
+    bottom: 12px;
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--color-background);
     color: var(--ms-card-title);
   }
 
   .ms-tile__arrow svg {
-    width: 13px;
-    height: 13px;
+    width: 9px;
+    height: 9px;
   }
 
   @media (max-width: 989px) {
@@ -119,15 +120,11 @@
   @media (max-width: 749px) {
     .ms-tiles {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     .ms-tile {
-      aspect-ratio: 16 / 6.4;
-    }
-
-    .ms-tile__img {
-      width: 48%;
+      aspect-ratio: var(--ms-tile-ratio-m);
     }
   }
 {% endstylesheet %}
@@ -150,6 +147,34 @@
       "max": 6,
       "step": 1,
       "default": 4
+    },
+    {
+      "type": "range",
+      "id": "ratio",
+      "label": "Tile shape, width ÷ height (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 0.1,
+      "default": 2.7
+    },
+    {
+      "type": "range",
+      "id": "ratio_mobile",
+      "label": "Tile shape, width ÷ height (mobile)",
+      "min": 1,
+      "max": 4,
+      "step": 0.1,
+      "default": 2.9
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 17
     },
     {
       "type": "color",
