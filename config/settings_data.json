@@ -115,7 +115,11 @@
     "ms_highlight_color": "{{ settings.color_palette.color7 }}",
     "ms_card_media_radius": 20,
     "ms_card_media_background": "{{ settings.color_palette.color2 }}",
-    "ms_card_hover_shadow": true
+    "ms_card_hover_shadow": true,
+    "quick_add": false,
+    "mobile_quick_add": false,
+    "show_second_image_on_hover": false,
+    "product_card_carousel": false
   },
   "presets": {
     "Default": {

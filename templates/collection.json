@@ -123,13 +123,13 @@
           "type": "_product-card",
           "static": true,
           "settings": {
-            "product_card_gap": 10,
+            "product_card_gap": 12,
             "border": "solid",
             "border_width": 1,
             "border_opacity": 60,
             "border_radius": 28,
             "padding-block-start": 10,
-            "padding-block-end": 14,
+            "padding-block-end": 16,
             "padding-inline-start": 10,
             "padding-inline-end": 10
           },
@@ -137,7 +137,7 @@
             "card-gallery": {
               "type": "_product-card-gallery",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -165,44 +165,12 @@
                 "wrap": "pretty",
                 "background": false,
                 "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_EzJzMm": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "swatches": {
-              "type": "swatches",
-              "name": "t:names.swatches",
-              "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
-              }
             },
             "ms_card_buy": {
               "type": "buy-buttons",
@@ -241,13 +209,26 @@
                 }
               },
               "block_order": []
+            },
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {}
+            },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {}
             }
           },
           "block_order": [
+            "ms_badges",
             "card-gallery",
+            "ms_rating",
             "product_title_4nY4eT",
-            "price_EzJzMm",
-            "swatches",
+            "ms_price",
             "ms_card_buy"
           ]
         }

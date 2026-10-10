@@ -1,0 +1,35 @@
+{% doc %}
+  MoonSoon: star rating + review count from the standard reviews metafields (written by reviews apps like Judge.me).
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign rating = product.metafields.reviews.rating.value
+  assign count = product.metafields.reviews.rating_count.value | default: 0
+-%}
+{%- if count > 0 or settings.ms_card_show_empty_stars -%}
+  {%- liquid
+    assign value = rating.rating | default: 0
+    assign scale = rating.scale_max | default: 5
+    assign pct = value | times: 100.0 | divided_by: scale
+  -%}
+  <div class="ms-card-rating" {{ block.shopify_attributes }}>
+    <span class="ms-card-rating__stars" style="--ms-rating: {{ pct }}%;" role="img" aria-label="{{ value | round: 1 }} / {{ scale }}">
+      <span aria-hidden="true">★★★★★</span>
+      <span class="ms-card-rating__fill" aria-hidden="true">★★★★★</span>
+    </span>
+    <span class="ms-card-rating__count">({{ count }})</span>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MoonSoon rating",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows stars once a reviews app (e.g. Judge.me) is installed."
+    }
+  ]
+}
+{% endschema %}

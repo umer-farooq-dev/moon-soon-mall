@@ -2228,5 +2228,136 @@
         "default": true
       }
     ]
+  },
+  {
+    "name": "MoonSoon product cards",
+    "settings": [
+      {
+        "type": "color",
+        "id": "ms_card_border_color",
+        "label": "Card border color",
+        "default": "{{ settings.color_palette.color1 }}"
+      },
+      {
+        "type": "select",
+        "id": "ms_card_image_fit",
+        "label": "Product image fit",
+        "options": [
+          {
+            "value": "contain",
+            "label": "Show whole product (contain)"
+          },
+          {
+            "value": "cover",
+            "label": "Fill the box (cover)"
+          }
+        ],
+        "default": "contain"
+      },
+      {
+        "type": "color",
+        "id": "ms_card_title_color",
+        "label": "Title and price color",
+        "default": "{{ settings.color_palette.color1 }}"
+      },
+      {
+        "type": "header",
+        "content": "Left badge (label)"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_show_label",
+        "label": "Show label badge",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Text comes from the product metafield \"Card label\". If empty, the product type is used."
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_label_fallback_type",
+        "label": "Use product type when label is empty",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "ms_card_label_bg",
+        "label": "Label background",
+        "default": "{{ settings.color_palette.color6 }}"
+      },
+      {
+        "type": "header",
+        "content": "Right badge (best seller)"
+      },
+      {
+        "type": "collection",
+        "id": "ms_card_bestseller_collection",
+        "label": "Best seller collection"
+      },
+      {
+        "type": "text",
+        "id": "ms_card_bestseller_text",
+        "label": "Best seller text",
+        "default": "Best Seller"
+      },
+      {
+        "type": "color",
+        "id": "ms_card_bestseller_bg",
+        "label": "Best seller background",
+        "default": "{{ settings.color_palette.color5 }}"
+      },
+      {
+        "type": "header",
+        "content": "Sale"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_sale_sticker",
+        "label": "Show wavy sale sticker",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "ms_card_sale_text",
+        "label": "Sticker text",
+        "default": "SALE"
+      },
+      {
+        "type": "color",
+        "id": "ms_card_sale_bg",
+        "label": "Sticker color",
+        "default": "{{ settings.color_palette.color7 }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_show_percent",
+        "label": "Show \"% off\" pill",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "ms_card_percent_text",
+        "label": "\"% off\" text",
+        "info": "[percent] is replaced with the number",
+        "default": "[percent]% off"
+      },
+      {
+        "type": "header",
+        "content": "Stars"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_card_show_empty_stars",
+        "label": "Show stars even when a product has no reviews",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "ms_card_star_color",
+        "label": "Star color",
+        "default": "#F5B301"
+      }
+    ]
   }
 ]
