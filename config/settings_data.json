@@ -120,7 +120,7 @@
     "mobile_quick_add": false,
     "show_second_image_on_hover": false,
     "product_card_carousel": false,
-    "ms_card_bestseller_collection": "best-sellers"
+    "ms_card_bestseller_collection": ""
   },
   "presets": {
     "Default": {

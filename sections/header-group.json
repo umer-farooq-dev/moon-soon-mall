@@ -54,15 +54,6 @@
     "ms_header": {
       "type": "ms-header",
       "blocks": {
-        "c1": {
-          "type": "drawer_card",
-          "settings": {
-            "title": "Best Sellers",
-            "subtitle": "Our most loved products",
-            "link": "shopify://collections/best-sellers",
-            "background": "#DFF3E7"
-          }
-        },
         "c2": {
           "type": "drawer_card",
           "settings": {
@@ -71,10 +62,19 @@
             "link": "shopify://collections/summer-cooling",
             "background": "#FFF5C4"
           }
+        },
+        "c3": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "New Arrivals",
+            "subtitle": "Fresh picks every week",
+            "link": "shopify://collections/new-arrivals",
+            "background": "#DFF3E7"
+          }
         }
       },
       "block_order": [
-        "c1",
+        "c3",
         "c2"
       ],
       "settings": {
@@ -85,8 +85,8 @@
         "logo_width_mobile": 130,
         "show_search": true,
         "search_placeholder": "Search products",
-        "search_collection": "best-sellers",
-        "cta_label": "Best Sellers",
+        "search_collection": "new-arrivals",
+        "cta_label": "",
         "cta_link": "shopify://collections/best-sellers",
         "cart_label": "Cart"
       }
