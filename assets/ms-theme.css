@@ -80,9 +80,11 @@
 
 /* Title: bold, centered, one line (two on mobile) */
 .product-card__content [ref='productTitleLink'] .text-block {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
+  --width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: auto;
+  text-align: center !important;
 }
 
 .product-card__content [ref='productTitleLink'] :is(.text-block, p) {
@@ -96,6 +98,7 @@
 
 .product-card__content [ref='productTitleLink'] p {
   margin: 0;
+  text-align: center !important;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
