@@ -1,0 +1,115 @@
+{% doc %}
+  MoonSoon product page accordions. Each row takes its content from (first non-empty):
+  a product metafield key (e.g. custom.features) or "description", then a page, then the row's text.
+  Empty rows are hidden. In multi-line metafields, lines ending with "?" are shown bold (FAQ style).
+{% enddoc %}
+{%- assign product = closest.product -%}
+<div class="ms-acc" {{ block.shopify_attributes }}>
+  {%- for i in (1..6) -%}
+    {%- liquid
+      assign k = 'title_' | append: i
+      assign title = block.settings[k]
+      assign k = 'source_' | append: i
+      assign source = block.settings[k] | strip
+      assign k = 'page_' | append: i
+      assign row_page = block.settings[k]
+      assign k = 'text_' | append: i
+      assign row_text = block.settings[k]
+      assign content = ''
+      if title == blank
+        continue
+      endif
+      if source == 'description'
+        assign content = product.description
+      elsif source contains '.'
+        assign parts = source | split: '.'
+        assign mf = product.metafields[parts[0]][parts[1]]
+        if mf != blank
+          if mf.type contains 'rich_text'
+            assign content = mf | metafield_tag
+          else
+            assign lines = mf.value | escape | newline_to_br | split: '<br />'
+            capture content
+              for line in lines
+                assign l = line | strip
+                if l == blank
+                  continue
+                endif
+                assign last = l | slice: -1, 1
+                if last == '?'
+                  echo '<p class="ms-acc__q">' | append: l | append: '</p>'
+                else
+                  echo '<p>' | append: l | append: '</p>'
+                endif
+              endfor
+            endcapture
+          endif
+        endif
+      endif
+      if content == blank and row_page != blank
+        assign content = row_page.content
+      endif
+      if content == blank
+        assign content = row_text
+      endif
+    -%}
+    {%- if content != blank -%}
+      <details class="ms-acc__row" {% if forloop.first and block.settings.open_first %}open{% endif %}>
+        <summary>
+          <span>{{ title }}</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div class="ms-acc__body rte">{{ content }}</div>
+      </details>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "MoonSoon accordions",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Source = product metafield key (custom.features, custom.how_to_use, custom.in_the_box, custom.faqs) or description. Falls back to the page, then the text."
+    },
+    { "type": "checkbox", "id": "open_first", "label": "Open first row", "default": true },
+    { "type": "header", "content": "Row 1" },
+    { "type": "text", "id": "title_1", "label": "Title", "default": "Description" },
+    { "type": "text", "id": "source_1", "label": "Source", "default": "description" },
+    { "type": "page", "id": "page_1", "label": "Page" },
+    { "type": "richtext", "id": "text_1", "label": "Text" },
+    { "type": "header", "content": "Row 2" },
+    { "type": "text", "id": "title_2", "label": "Title", "default": "Features" },
+    { "type": "text", "id": "source_2", "label": "Source", "default": "custom.features" },
+    { "type": "page", "id": "page_2", "label": "Page" },
+    { "type": "richtext", "id": "text_2", "label": "Text" },
+    { "type": "header", "content": "Row 3" },
+    { "type": "text", "id": "title_3", "label": "Title", "default": "How To Use" },
+    { "type": "text", "id": "source_3", "label": "Source", "default": "custom.how_to_use" },
+    { "type": "page", "id": "page_3", "label": "Page" },
+    { "type": "richtext", "id": "text_3", "label": "Text" },
+    { "type": "header", "content": "Row 4" },
+    { "type": "text", "id": "title_4", "label": "Title", "default": "What's In The Box" },
+    { "type": "text", "id": "source_4", "label": "Source", "default": "custom.in_the_box" },
+    { "type": "page", "id": "page_4", "label": "Page" },
+    { "type": "richtext", "id": "text_4", "label": "Text" },
+    { "type": "header", "content": "Row 5" },
+    { "type": "text", "id": "title_5", "label": "Title", "default": "FAQs" },
+    { "type": "text", "id": "source_5", "label": "Source", "default": "custom.faqs" },
+    { "type": "page", "id": "page_5", "label": "Page" },
+    { "type": "richtext", "id": "text_5", "label": "Text" },
+    { "type": "header", "content": "Row 6" },
+    { "type": "text", "id": "title_6", "label": "Title", "default": "Shipping & Returns" },
+    { "type": "text", "id": "source_6", "label": "Source" },
+    { "type": "page", "id": "page_6", "label": "Page" },
+    { "type": "richtext", "id": "text_6", "label": "Text", "default": "<p>Cash on Delivery all over Pakistan. Usually 2–4 working days in major cities and 4–7 working days elsewhere. Damaged, defective or wrong item? Contact us within 7 days for an exchange.</p>" }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon accordions"
+    }
+  ]
+}
+{% endschema %}

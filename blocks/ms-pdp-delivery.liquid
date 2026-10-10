@@ -1,0 +1,97 @@
+{% doc %}
+  MoonSoon estimated delivery pill + trust icons row.
+{% enddoc %}
+{%- liquid
+  assign s = block.settings
+  assign now = 'now' | date: '%s' | plus: 0
+  assign from_ts = s.days_min | times: 86400 | plus: now
+  assign to_ts = s.days_max | times: 86400 | plus: now
+  assign from = from_ts | date: s.date_format
+  assign to = to_ts | date: s.date_format
+-%}
+<div class="ms-pdp-delivery" {{ block.shopify_attributes }}>
+  {%- if s.text != blank -%}
+    <p class="ms-pdp-delivery__pill">
+      {{ s.text | replace: '[from]', from | replace: '[to]', to }}
+    </p>
+  {%- endif -%}
+  <ul class="ms-pdp-delivery__icons">
+    {%- for i in (1..3) -%}
+      {%- liquid
+        assign t_key = 'text_' | append: i
+        assign i_key = 'icon_' | append: i
+      -%}
+      {%- if s[t_key] != blank -%}
+        <li>
+          <svg viewBox="0 0 20 20" aria-hidden="true">{%- render 'icon', icon: s[i_key] -%}</svg>
+          <span>{{ s[t_key] }}</span>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "MoonSoon delivery + trust",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Delivery text",
+      "default": "Estimated delivery: [from] – [to]",
+      "info": "[from] and [to] are dates. Leave empty to hide."
+    },
+    { "type": "range", "id": "days_min", "label": "Delivery from (days)", "min": 0, "max": 15, "step": 1, "default": 2 },
+    { "type": "range", "id": "days_max", "label": "Delivery to (days)", "min": 1, "max": 20, "step": 1, "default": 5 },
+    {
+      "type": "select",
+      "id": "date_format",
+      "label": "Date format",
+      "options": [
+        { "value": "%-d %b", "label": "12 Oct" },
+        { "value": "%a, %-d %b", "label": "Mon, 12 Oct" },
+        { "value": "%-d %B", "label": "12 October" }
+      ],
+      "default": "%a, %-d %b"
+    },
+    { "type": "header", "content": "Trust icons" },
+    {
+      "type": "select", "id": "icon_1", "label": "Icon 1",
+      "options": [
+        { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" }, { "value": "lock", "label": "Lock" },
+        { "value": "chat_bubble", "label": "Chat" }, { "value": "price_tag", "label": "Price tag" }, { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check" }, { "value": "star", "label": "Star" }
+      ],
+      "default": "truck"
+    },
+    { "type": "text", "id": "text_1", "label": "Text 1", "default": "Cash on Delivery" },
+    {
+      "type": "select", "id": "icon_2", "label": "Icon 2",
+      "options": [
+        { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" }, { "value": "lock", "label": "Lock" },
+        { "value": "chat_bubble", "label": "Chat" }, { "value": "price_tag", "label": "Price tag" }, { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check" }, { "value": "star", "label": "Star" }
+      ],
+      "default": "return"
+    },
+    { "type": "text", "id": "text_2", "label": "Text 2", "default": "7-Day Exchange" },
+    {
+      "type": "select", "id": "icon_3", "label": "Icon 3",
+      "options": [
+        { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" }, { "value": "lock", "label": "Lock" },
+        { "value": "chat_bubble", "label": "Chat" }, { "value": "price_tag", "label": "Price tag" }, { "value": "box", "label": "Box" },
+        { "value": "check_box", "label": "Check" }, { "value": "star", "label": "Star" }
+      ],
+      "default": "chat_bubble"
+    },
+    { "type": "text", "id": "text_3", "label": "Text 3", "default": "Order Confirmed On Call" }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon delivery + trust"
+    }
+  ]
+}
+{% endschema %}

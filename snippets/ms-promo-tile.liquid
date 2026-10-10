@@ -1,0 +1,21 @@
+{% doc %}
+  MoonSoon promo tile shown inside a product grid. Reads the section's promo_* settings.
+
+  @param {object} s - section.settings
+{% enddoc %}
+<li
+  class="product-grid__item ms-promo-tile"
+  style="--ms-pt-g1: {{ s.promo_color_1 }}; --ms-pt-g2: {{ s.promo_color_2 }}; --ms-pt-fg: {{ s.promo_text_color }};"
+>
+  <a href="{{ s.promo_link | default: '#' }}" class="ms-promo-tile__link">
+    {%- if s.promo_image != blank -%}
+      {{ s.promo_image | image_url: width: 600 | image_tag: class: 'ms-promo-tile__img', loading: 'lazy', alt: s.promo_heading, widths: '300, 450, 600', sizes: '(min-width: 750px) 25vw, 50vw' }}
+    {%- endif -%}
+    <span class="ms-promo-tile__text">
+      {%- if s.promo_eyebrow != blank -%}<span class="ms-promo-tile__eyebrow">{{ s.promo_eyebrow }}</span>{%- endif -%}
+      {%- if s.promo_heading != blank -%}<strong>{{ s.promo_heading }}</strong>{%- endif -%}
+      {%- if s.promo_text != blank -%}<span>{{ s.promo_text }}</span>{%- endif -%}
+      {%- if s.promo_button != blank -%}<span class="button ms-promo-tile__btn">{{ s.promo_button }}</span>{%- endif -%}
+    </span>
+  </a>
+</li>

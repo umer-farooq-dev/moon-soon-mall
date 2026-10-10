@@ -1,0 +1,151 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "ms-collection-banner",
+      "settings": {
+        "show_count": false,
+        "show_media": false
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "page-content"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "trust": {
+      "type": "ms-trust-bar",
+      "settings": {
+        "scroll": true
+      },
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "text": "Cash on Delivery"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "map_pin",
+            "text": "Nationwide Delivery"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "text": "Easy Returns"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "text": "Secure Checkout"
+          }
+        },
+        "t5": {
+          "type": "item",
+          "settings": {
+            "icon": "chat_bubble",
+            "text": "WhatsApp Support"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ]
+    },
+    "tiles": {
+      "type": "ms-category-tiles",
+      "settings": {
+        "heading": "Shop By Category",
+        "columns": 4
+      },
+      "blocks": {
+        "c1": {
+          "type": "tile",
+          "settings": {
+            "collection": "kitchen-dining",
+            "title": "Shop Kitchen",
+            "color_1": "#2E8B57",
+            "color_2": "#A8DDBF"
+          }
+        },
+        "c2": {
+          "type": "tile",
+          "settings": {
+            "collection": "electronics-gadgets",
+            "title": "Shop Gadgets",
+            "color_1": "#3A7BD5",
+            "color_2": "#A9CBF5"
+          }
+        },
+        "c3": {
+          "type": "tile",
+          "settings": {
+            "collection": "beauty-care",
+            "title": "Shop Beauty",
+            "color_1": "#E0679B",
+            "color_2": "#F9C4DB"
+          }
+        },
+        "c4": {
+          "type": "tile",
+          "settings": {
+            "collection": "fans-cooling",
+            "title": "Shop Cooling",
+            "color_1": "#1BA6B6",
+            "color_2": "#B4ECF1"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "quote": {
+      "type": "ms-quote",
+      "settings": {}
+    }
+  },
+  "order": [
+    "banner",
+    "main",
+    "trust",
+    "tiles",
+    "quote"
+  ]
+}

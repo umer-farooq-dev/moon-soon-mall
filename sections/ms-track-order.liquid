@@ -1,0 +1,120 @@
+{% comment %}
+  MoonSoon track order: short steps + buttons to the customer account orders page and WhatsApp.
+{% endcomment %}
+{%- assign wa = settings.ms_wa_number | remove: '+' | remove: ' ' | remove: '-' -%}
+<div class="ms-sec" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner ms-track">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ms-sec__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="rte ms-track__text">{{ section.settings.text }}</div>
+    {%- endif -%}
+    <ol class="ms-track__steps">
+      {%- for block in section.blocks -%}
+        <li {{ block.shopify_attributes }}>
+          <span class="ms-track__num">{{ forloop.index }}</span>
+          <strong>{{ block.settings.title }}</strong>
+          {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+    <div class="ms-track__actions">
+      {%- if section.settings.account_label != blank -%}
+        <a class="button" href="{{ section.settings.account_link | default: routes.account_url }}">{{ section.settings.account_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.wa_label != blank and wa != blank -%}
+        <a class="button button-secondary" href="https://wa.me/{{ wa }}?text={{ section.settings.wa_message | url_encode }}" target="_blank" rel="noopener">
+          {{- section.settings.wa_label -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-track {
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .ms-track__text {
+    margin-bottom: 24px;
+  }
+
+  .ms-track__steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 0 0 28px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-track__steps li {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    padding: 20px 16px;
+    border: 1.5px solid var(--ms-card-border);
+    border-radius: 24px;
+    background: var(--ms-pale);
+    color: var(--ms-card-title);
+    font-size: 14px;
+  }
+
+  .ms-track__num {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ms-shadow-color);
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .ms-track__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon track order",
+  "class": "ms-track-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where Is My Order?" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>We share your tracking number by SMS / WhatsApp once your parcel is dispatched.</p>"
+    },
+    { "type": "text", "id": "account_label", "label": "Account button text", "default": "View My Orders" },
+    { "type": "url", "id": "account_link", "label": "Account button link", "info": "Empty = customer account" },
+    { "type": "text", "id": "wa_label", "label": "WhatsApp button text", "default": "Ask On WhatsApp", "info": "Needs a number in Theme settings → MoonSoon WhatsApp button" },
+    { "type": "text", "id": "wa_message", "label": "WhatsApp message", "default": "Hi! I want to track my order. My order number is " },
+    { "type": "color", "id": "background", "label": "Background" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon track order",
+      "blocks": [{ "type": "step" }, { "type": "step" }, { "type": "step" }]
+    }
+  ]
+}
+{% endschema %}

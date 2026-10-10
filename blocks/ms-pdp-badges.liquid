@@ -1,0 +1,59 @@
+{% doc %}
+  MoonSoon product page badges: pills from the product's "Product page badges" metafield,
+  plus optional badges for every product from the block settings.
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign list = product.metafields.custom.badges.value
+  assign extra = block.settings.extra | split: ','
+-%}
+{%- if list.size > 0 or block.settings.extra != blank or block.settings.show_label -%}
+  <div class="ms-pdp-badges" {{ block.shopify_attributes }}>
+    {%- if block.settings.show_label -%}
+      {%- assign label = product.metafields.custom.card_label.value | default: product.type -%}
+      {%- if label != blank -%}
+        <span class="ms-pdp-badge ms-pdp-badge--accent">{{ label }}</span>
+      {%- endif -%}
+    {%- endif -%}
+    {%- for b in list -%}
+      <span class="ms-pdp-badge">{{ b }}</span>
+    {%- endfor -%}
+    {%- for b in extra -%}
+      {%- assign t = b | strip -%}
+      {%- if t != blank -%}
+        <span class="ms-pdp-badge">{{ t }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MoonSoon badges",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "label": "Show category label",
+      "info": "Card label metafield, or product type",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "extra",
+      "label": "Badges on every product",
+      "info": "Comma separated, e.g. Cash on Delivery,Free Delivery"
+    },
+    {
+      "type": "paragraph",
+      "content": "Per-product badges: Products → product → Metafields → Product page badges"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon badges"
+    }
+  ]
+}
+{% endschema %}

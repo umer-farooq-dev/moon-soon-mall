@@ -1,0 +1,69 @@
+{% comment %}
+  MoonSoon FAQ accordion. Questions come from the page content: every Heading 3 becomes a question,
+  the text under it the answer. Edit the page in Online Store → Pages, no code needed.
+{% endcomment %}
+{%- assign chunks = page.content | split: '<h3' -%}
+<div class="ms-sec" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner ms-faq">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ms-sec__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if chunks.size > 1 -%}
+      {%- assign intro = chunks.first | strip -%}
+      {%- if intro != blank -%}<div class="rte ms-faq__intro">{{ intro }}</div>{%- endif -%}
+      <div class="ms-acc">
+        {%- for chunk in chunks offset: 1 -%}
+          {%- liquid
+            assign parts = chunk | split: '</h3>'
+            assign question = parts.first | split: '>' | slice: 1, 99 | join: '>' | strip_html | strip
+            assign answer = parts | slice: 1, 99 | join: '</h3>'
+          -%}
+          <details class="ms-acc__row" {% if forloop.first and section.settings.open_first %}open{% endif %}>
+            <summary>
+              <span>{{ question }}</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <div class="ms-acc__body rte">{{ answer }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="rte">{{ page.content }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-faq {
+    max-width: 860px;
+  }
+
+  .ms-faq__intro {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon FAQ",
+  "class": "ms-faq-section",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Questions = Heading 3 lines in the page content. Answers = text under each heading."
+    },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": true },
+    { "type": "color", "id": "background", "label": "Background" }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon FAQ"
+    }
+  ]
+}
+{% endschema %}

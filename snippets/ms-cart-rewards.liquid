@@ -1,0 +1,119 @@
+{% doc %}
+  MoonSoon cart drawer extras, all from Theme settings → MoonSoon cart drawer.
+
+  @param {string} part - 'top' (strip + progress bar) or 'upsell'
+{% enddoc %}
+{%- liquid
+  assign gift_variant = settings.ms_cart_gift_product.selected_or_first_available_variant
+  assign total = cart.items_subtotal_price
+  for item in cart.items
+    if gift_variant and item.variant_id == gift_variant.id
+      assign total = total | minus: item.final_line_price
+    endif
+  endfor
+-%}
+
+{%- if part == 'top' -%}
+  {%- if settings.ms_cart_strip_text != blank -%}
+    <p class="ms-cart-strip">{{ settings.ms_cart_strip_text }}</p>
+  {%- endif -%}
+
+  {%- liquid
+    assign g1 = settings.ms_cart_goal_1_amount | times: 100
+    assign g2 = settings.ms_cart_goal_2_amount | times: 100
+    assign max = g1 | at_least: g2
+    assign next_label = ''
+    assign next_amount = 0
+    if g1 > 0 and total < g1
+      assign next_label = settings.ms_cart_goal_1_label
+      assign next_amount = g1 | minus: total
+    elsif g2 > 0 and total < g2
+      assign next_label = settings.ms_cart_goal_2_label
+      assign next_amount = g2 | minus: total
+    endif
+  -%}
+  {%- if max > 0 -%}
+    {%- liquid
+      assign pct = total | times: 100 | divided_by: max | at_most: 100
+      assign remaining = next_amount | money_without_trailing_zeros
+    -%}
+    <div class="ms-cart-progress">
+      <p class="ms-cart-progress__msg">
+        {%- if next_amount > 0 -%}
+          {{ settings.ms_cart_progress_text | replace: '[amount]', remaining | replace: '[goal]', next_label }}
+        {%- else -%}
+          {{ settings.ms_cart_done_text }}
+        {%- endif -%}
+      </p>
+      <div class="ms-cart-progress__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct }}">
+        <span class="ms-cart-progress__fill" style="width: {{ pct }}%;"></span>
+        {%- for i in (1..2) -%}
+          {%- liquid
+            if i == 1
+              assign g = g1
+              assign label = settings.ms_cart_goal_1_label
+            else
+              assign g = g2
+              assign label = settings.ms_cart_goal_2_label
+            endif
+          -%}
+          {%- if g > 0 -%}
+            {%- assign pos = g | times: 100 | divided_by: max -%}
+            <span class="ms-cart-progress__goal{% if total >= g %} is-done{% endif %}" style="left: {{ pos }}%;">
+              <span class="ms-cart-progress__dot" aria-hidden="true">{% if total >= g %}✓{% else %}{{ i }}{% endif %}</span>
+              <span class="ms-cart-progress__label">{{ label }}</span>
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{%- if part == 'upsell' and settings.ms_cart_upsell_collection != blank -%}
+  {%- assign shown = 0 -%}
+  {%- capture cards -%}
+    {%- for p in settings.ms_cart_upsell_collection.products -%}
+      {%- liquid
+        if shown >= settings.ms_cart_upsell_limit
+          break
+        endif
+        assign in_cart = false
+        for item in cart.items
+          if item.product_id == p.id
+            assign in_cart = true
+          endif
+        endfor
+        if in_cart or p.available == false
+          continue
+        endif
+        if gift_variant and p.id == settings.ms_cart_gift_product.id
+          continue
+        endif
+        assign shown = shown | plus: 1
+        assign v = p.selected_or_first_available_variant
+      -%}
+      <li class="ms-upsell">
+        <a href="{{ p.url }}" class="ms-upsell__img">
+          {%- if p.featured_image -%}
+            {{ p.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: p.title }}
+          {%- endif -%}
+        </a>
+        <a href="{{ p.url }}" class="ms-upsell__title">{{ p.title }}</a>
+        <span class="ms-upsell__price">
+          <strong>{{ v.price | money_without_trailing_zeros }}</strong>
+          {%- if v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money_without_trailing_zeros }}</s>{%- endif -%}
+        </span>
+        <button type="button" class="ms-upsell__btn" data-ms-add="{{ v.id }}">{{ settings.ms_cart_upsell_button }}</button>
+      </li>
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if shown > 0 -%}
+    <div class="ms-upsells">
+      {%- if settings.ms_cart_upsell_heading != blank -%}
+        <p class="ms-upsells__heading">{{ settings.ms_cart_upsell_heading }}</p>
+      {%- endif -%}
+      <ul class="ms-upsells__list">{{ cards }}</ul>
+    </div>
+  {%- endif -%}
+{%- endif -%}

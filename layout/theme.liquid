@@ -27,6 +27,14 @@
     {%- render 'ms-theme-vars' -%}
     {{ 'ms-theme.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'ms-sections.js' | asset_url }}" defer></script>
+    {%- liquid
+      assign ms_gift = settings.ms_cart_gift_product.selected_or_first_available_variant
+      assign ms_gift_at = settings.ms_cart_goal_2_amount | times: 100
+    -%}
+    <script>
+      window.MoonSoonCart = { giftVariant: {{ ms_gift.id | default: 'null' }}, giftThreshold: {{ ms_gift_at | default: 0 }} };
+    </script>
+    <script type="module" src="{{ 'ms-cart.js' | asset_url }}"></script>
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
@@ -172,6 +180,7 @@
     {% render 'theme-drawer' %}
 
     {% render 'search-modal' %}
+    {% render 'ms-whatsapp' %}
 
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
