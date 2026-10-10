@@ -19,6 +19,9 @@
   data-ms-tabs
 >
   <div class="ms-sec__inner">
+    {%- if section.settings.rating_text != blank -%}
+      {%- render 'ms-rating-line', text: section.settings.rating_text -%}
+    {%- endif -%}
     {%- if section.settings.heading != blank -%}
       <h2 class="ms-sec__title ms-ptabs__title">{{ section.settings.heading }}</h2>
     {%- endif -%}
@@ -148,6 +151,12 @@
   "name": "MoonSoon product slider",
   "class": "ms-ptabs-section",
   "settings": [
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Stars line above heading",
+      "info": "e.g. 10,000+ Happy Customers. Empty = hidden."
+    },
     {
       "type": "text",
       "id": "heading",

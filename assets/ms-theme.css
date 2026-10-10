@@ -1152,3 +1152,22 @@
 .page-content h3 {
   color: var(--ms-card-title);
 }
+
+/* Stars line, e.g. above section headings */
+.ms-rating-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: var(--ms-card-title);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ms-rating-line__stars {
+  color: var(--ms-star);
+  font-size: 17px;
+  letter-spacing: 2px;
+}
