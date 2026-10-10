@@ -1,0 +1,94 @@
+/* MoonSoon theme layer on top of Horizon. All values come from theme settings via snippets/ms-theme-vars.liquid */
+
+/* ---------- 3D buttons ---------- */
+:is(.button, .button-secondary, button.shopify-payment-button__button--unbranded):not(
+    .button-unstyled,
+    .close-button,
+    .menu-drawer__back-button,
+    .quick-add__button,
+    .variant-item__remove,
+    .predictive-search__search-button
+  ) {
+  --ms-btn-ring: inset 0 0 0 var(--button-border-width, 0) var(--button-border-color, transparent);
+
+  font-weight: var(--ms-btn-weight);
+  outline: 1px solid var(--ms-shadow-color);
+  outline-offset: -1px;
+  box-shadow: var(--ms-btn-ring), var(--ms-btn-depth) var(--ms-btn-depth) 0 0 var(--ms-shadow-color);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, color var(--animation-speed) var(--animation-easing),
+    background-color var(--animation-speed) var(--animation-easing);
+
+  &:hover:not(:disabled, [aria-disabled='true']) {
+    transform: translate(calc(var(--ms-btn-depth) / 2), calc(var(--ms-btn-depth) / 2));
+    box-shadow: var(--ms-btn-ring), calc(var(--ms-btn-depth) / 2) calc(var(--ms-btn-depth) / 2) 0 0 var(--ms-shadow-color);
+  }
+
+  &:active:not(:disabled, [aria-disabled='true']) {
+    transform: translate(var(--ms-btn-depth), var(--ms-btn-depth));
+    box-shadow: var(--ms-btn-ring), 0 0 0 0 var(--ms-shadow-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ms-shadow-color);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.button, .button-secondary) {
+    transform: none !important;
+  }
+}
+
+/* ---------- Product cards ---------- */
+.product-card__content {
+  height: 100%;
+  background-color: var(--color-background);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .product-card:hover .product-card__content {
+    box-shadow: var(--ms-card-hover-shadow);
+  }
+}
+
+.product-card .card-gallery {
+  border-radius: var(--ms-card-media-radius);
+  background-color: var(--ms-card-media-bg);
+  overflow: hidden;
+}
+
+/* Keep the add-to-cart button pinned to the bottom so cards in a row line up */
+.product-card__content > :last-child:has(.add-to-cart-button) {
+  margin-top: auto;
+}
+
+.product-card .add-to-cart-button {
+  width: 100%;
+}
+
+/* ---------- Badges ---------- */
+.product-badges__badge {
+  font-weight: 600;
+}
+
+/* ---------- Helpers for MoonSoon sections ---------- */
+.ms-bg-light {
+  background-color: var(--ms-light);
+}
+
+.ms-bg-pale {
+  background-color: var(--ms-pale);
+}
+
+.ms-pill-accent {
+  background-color: var(--ms-accent);
+  color: var(--ms-accent-text);
+  border-radius: 999px;
+}
+
+.ms-pill-highlight {
+  background-color: var(--ms-highlight);
+  border-radius: 999px;
+}

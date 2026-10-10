@@ -1,0 +1,18 @@
+{% doc %}
+  MoonSoon: CSS variables from the "MoonSoon style" theme settings.
+{% enddoc %}
+{% style %}
+  :root {
+    --ms-btn-depth: {% if settings.ms_button_3d %}{{ settings.ms_button_3d_depth }}px{% else %}0px{% endif %};
+    --ms-btn-weight: {{ settings.ms_button_weight }};
+    --ms-shadow-color: {{ settings.ms_shadow_color }};
+    --ms-accent: {{ settings.ms_accent_color }};
+    --ms-accent-text: {{ settings.ms_accent_text_color }};
+    --ms-light: {{ settings.ms_light_color }};
+    --ms-pale: {{ settings.ms_pale_color }};
+    --ms-highlight: {{ settings.ms_highlight_color }};
+    --ms-card-media-radius: {{ settings.ms_card_media_radius }}px;
+    --ms-card-media-bg: {{ settings.ms_card_media_background }};
+    --ms-card-hover-shadow: {% if settings.ms_card_hover_shadow %}0 10px 28px rgb({{ settings.ms_shadow_color.rgb }} / 0.12){% else %}none{% endif %};
+  }
+{% endstyle %}
