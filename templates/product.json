@@ -590,13 +590,20 @@
           "settings": {
             "product": "design-ultra-deep-massage-gun"
           }
+        },
+        "v5": {
+          "type": "video",
+          "settings": {
+            "product": "2-in-one-oil-bottel"
+          }
         }
       },
       "block_order": [
         "v1",
         "v2",
         "v3",
-        "v4"
+        "v4",
+        "v5"
       ],
       "settings": {
         "heading": "See It In Action 🎬",
