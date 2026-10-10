@@ -1,0 +1,59 @@
+{% doc %}
+  MoonSoon: badges over the product card image.
+  Left pill = product metafield custom.card_label (falls back to product type).
+  Right pill = shown when the product is in the "best seller" collection from theme settings.
+  Sale sticker = shown when the product is on sale.
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign label = product.metafields.custom.card_label.value | default: ''
+  if label == blank and settings.ms_card_label_fallback_type
+    assign label = product.type
+  endif
+
+  assign is_bestseller = false
+  if settings.ms_card_bestseller_collection != blank
+    for c in product.collections
+      if c.id == settings.ms_card_bestseller_collection.id
+        assign is_bestseller = true
+        break
+      endif
+    endfor
+  endif
+
+  assign on_sale = false
+  if settings.ms_card_sale_sticker and product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+-%}
+{%- if label != blank or is_bestseller or on_sale -%}
+  <div class="ms-card-badges" {{ block.shopify_attributes }}>
+    {%- if label != blank and settings.ms_card_show_label -%}
+      <span class="ms-card-badges__pill ms-card-badges__pill--label">{{ label }}</span>
+    {%- endif -%}
+    <span class="ms-card-badges__stack">
+      {%- if is_bestseller -%}
+        <span class="ms-card-badges__pill ms-card-badges__pill--best">{{ settings.ms_card_bestseller_text }}</span>
+      {%- endif -%}
+      {%- if on_sale -%}
+        <span class="ms-card-badges__sticker">
+          <svg viewBox="-6 -6 112 112" aria-hidden="true"><path d="M98 50Q104.8 64.7 91.6 74Q90.1 90.1 74 91.6Q64.7 104.8 50 98Q35.3 104.8 26 91.6Q9.9 90.1 8.4 74Q-4.8 64.7 2 50Q-4.8 35.3 8.4 26Q9.9 9.9 26 8.4Q35.3-4.8 50 2Q64.7-4.8 74 8.4Q90.1 9.9 91.6 26Q104.8 35.3 98 50Z"/></svg>
+          <span>{{ settings.ms_card_sale_text }}</span>
+        </span>
+      {%- endif -%}
+    </span>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MoonSoon badges",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Badge texts and colors are in Theme settings → MoonSoon product cards. Per-product label: product metafield \"Card label\"."
+    }
+  ]
+}
+{% endschema %}

@@ -16,3 +16,14 @@
     --ms-card-hover-shadow: {% if settings.ms_card_hover_shadow %}0 10px 28px rgb({{ settings.ms_shadow_color.rgb }} / 0.12){% else %}none{% endif %};
   }
 {% endstyle %}
+{% style %}
+  :root {
+    --ms-card-border: {{ settings.ms_card_border_color }};
+    --ms-card-image-fit: {{ settings.ms_card_image_fit }};
+    --ms-card-title: {{ settings.ms_card_title_color }};
+    --ms-card-label-bg: {{ settings.ms_card_label_bg }};
+    --ms-card-best-bg: {{ settings.ms_card_bestseller_bg }};
+    --ms-card-sale-bg: {{ settings.ms_card_sale_bg }};
+    --ms-star: {{ settings.ms_card_star_color }};
+  }
+{% endstyle %}

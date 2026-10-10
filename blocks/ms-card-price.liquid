@@ -1,0 +1,33 @@
+{% doc %}
+  MoonSoon: price, compare-at price and "% off" pill for product cards.
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign variant = product.selected_or_first_available_variant
+  assign price = variant.price | default: product.price
+  assign compare = variant.compare_at_price | default: 0
+-%}
+<div class="ms-card-price" {{ block.shopify_attributes }}>
+  {%- if compare > price -%}
+    <s class="ms-card-price__compare">{{ compare | money_without_trailing_zeros }}</s>
+  {%- endif -%}
+  <span class="ms-card-price__now">
+    {%- if product.price_varies -%}
+      {{ 'content.price_from' | t: price: price | money_without_trailing_zeros }}
+    {%- else -%}
+      {{ price | money_without_trailing_zeros }}
+    {%- endif -%}
+  </span>
+  {%- if compare > price and settings.ms_card_show_percent -%}
+    {%- assign off = compare | minus: price | times: 100.0 | divided_by: compare | round -%}
+    <span class="ms-card-price__off">{{ settings.ms_card_percent_text | replace: '[percent]', off }}</span>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "MoonSoon price",
+  "tag": null,
+  "settings": []
+}
+{% endschema %}

@@ -305,13 +305,13 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 10,
+            "product_card_gap": 12,
             "border": "solid",
             "border_width": 1,
             "border_opacity": 60,
             "border_radius": 28,
             "padding-block-start": 10,
-            "padding-block-end": 14,
+            "padding-block-end": 16,
             "padding-inline-start": 10,
             "padding-inline-end": 10
           },
@@ -320,7 +320,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -348,27 +348,6 @@
                 "wrap": "pretty",
                 "background": false,
                 "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_gLWgA6": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -413,12 +392,26 @@
                 }
               },
               "block_order": []
+            },
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {}
+            },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {}
             }
           },
           "block_order": [
+            "ms_badges",
             "product_card_gallery_DNizbJ",
+            "ms_rating",
             "product_title_M7MJkb",
-            "price_gLWgA6",
+            "ms_price",
             "ms_card_buy"
           ]
         }
