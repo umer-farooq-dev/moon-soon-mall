@@ -2381,5 +2381,147 @@
         "default": "#F5B301"
       }
     ]
+  },
+  {
+    "name": "MoonSoon cart drawer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "ms_cart_strip_text",
+        "label": "Top strip text",
+        "default": "Cash on Delivery all over Pakistan 🚚"
+      },
+      {
+        "type": "header",
+        "content": "Progress bar"
+      },
+      {
+        "type": "paragraph",
+        "content": "Set an amount to 0 to hide that goal. Free delivery itself must be set in Settings → Shipping (rate with minimum order price)."
+      },
+      {
+        "type": "number",
+        "id": "ms_cart_goal_1_amount",
+        "label": "Goal 1 amount (Rs)",
+        "default": 0
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_goal_1_label",
+        "label": "Goal 1 name",
+        "default": "Free Delivery"
+      },
+      {
+        "type": "number",
+        "id": "ms_cart_goal_2_amount",
+        "label": "Goal 2 amount (Rs)",
+        "default": 0
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_goal_2_label",
+        "label": "Goal 2 name",
+        "default": "Free Gift"
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_progress_text",
+        "label": "Progress text",
+        "default": "Add [amount] more to unlock [goal]!",
+        "info": "[amount] = money left, [goal] = goal name"
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_done_text",
+        "label": "All goals reached text",
+        "default": "🎉 Congrats! You unlocked all rewards"
+      },
+      {
+        "type": "header",
+        "content": "Free gift"
+      },
+      {
+        "type": "product",
+        "id": "ms_cart_gift_product",
+        "label": "Free gift product",
+        "info": "Added automatically when the cart reaches Goal 2, removed when it drops below. Give this product price Rs 0 (or a 100% automatic discount)."
+      },
+      {
+        "type": "header",
+        "content": "Upsell products"
+      },
+      {
+        "type": "collection",
+        "id": "ms_cart_upsell_collection",
+        "label": "Upsell collection",
+        "info": "Products already in the cart are skipped"
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_upsell_heading",
+        "label": "Heading",
+        "default": "You may also like"
+      },
+      {
+        "type": "range",
+        "id": "ms_cart_upsell_limit",
+        "label": "Products to show",
+        "min": 1,
+        "max": 8,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_upsell_button",
+        "label": "Button text",
+        "default": "Add +"
+      }
+    ]
+  },
+  {
+    "name": "MoonSoon WhatsApp button",
+    "settings": [
+      {
+        "type": "text",
+        "id": "ms_wa_number",
+        "label": "WhatsApp number",
+        "info": "International format without + or spaces, e.g. 923001234567. Empty = button hidden."
+      },
+      {
+        "type": "text",
+        "id": "ms_wa_message",
+        "label": "Pre-filled message",
+        "default": "Hi MoonSoonMall! I have a question."
+      },
+      {
+        "type": "text",
+        "id": "ms_wa_label",
+        "label": "Bubble text",
+        "default": "Chat with us"
+      },
+      {
+        "type": "select",
+        "id": "ms_wa_position",
+        "label": "Position",
+        "options": [
+          {
+            "value": "right",
+            "label": "Bottom right"
+          },
+          {
+            "value": "left",
+            "label": "Bottom left"
+          }
+        ],
+        "default": "right"
+      },
+      {
+        "type": "checkbox",
+        "id": "ms_wa_product_message",
+        "label": "On product pages, add the product name to the message",
+        "default": true
+      }
+    ]
   }
 ]

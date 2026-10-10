@@ -1,0 +1,65 @@
+{% doc %}
+  MoonSoon product page rating line: stars (reviews app metafields) + "X+ Sold" (custom.sold_count).
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign rating = product.metafields.reviews.rating.value
+  assign count = product.metafields.reviews.rating_count.value | default: 0
+  assign sold = product.metafields.custom.sold_count.value | default: 0
+  assign show_stars = false
+  if count > 0 or settings.ms_card_show_empty_stars
+    assign show_stars = true
+  endif
+-%}
+{%- if show_stars or sold > 0 -%}
+  <div class="ms-pdp-rating" {{ block.shopify_attributes }}>
+    {%- if show_stars -%}
+      {%- liquid
+        assign value = rating.rating | default: 0
+        assign scale = rating.scale_max | default: 5
+        assign pct = value | times: 100.0 | divided_by: scale
+      -%}
+      <a href="#{{ block.settings.reviews_anchor }}" class="ms-pdp-rating__stars-link">
+        <span class="ms-card-rating__stars" style="--ms-rating: {{ pct }}%;" role="img" aria-label="{{ value | round: 1 }} / {{ scale }}">
+          <span aria-hidden="true">★★★★★</span>
+          <span class="ms-card-rating__fill" aria-hidden="true">★★★★★</span>
+        </span>
+        {%- if count > 0 -%}
+          <strong>{{ value | round: 1 }}</strong>
+          <span>({{ count }})</span>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+    {%- if sold > 0 -%}
+      {%- if show_stars -%}<span class="ms-pdp-rating__sep" aria-hidden="true">|</span>{%- endif -%}
+      <span class="ms-pdp-rating__sold">{{ block.settings.sold_text | replace: '[count]', sold }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MoonSoon rating + sold",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "sold_text",
+      "label": "Sold text",
+      "default": "[count]+ Sold",
+      "info": "[count] = Sold count metafield. Hidden when empty."
+    },
+    {
+      "type": "text",
+      "id": "reviews_anchor",
+      "label": "Stars link to (element id)",
+      "default": "reviews"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon rating + sold"
+    }
+  ]
+}
+{% endschema %}

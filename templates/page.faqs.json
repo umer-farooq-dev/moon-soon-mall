@@ -1,0 +1,62 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "ms-collection-banner",
+      "settings": {
+        "show_count": false,
+        "show_media": false
+      }
+    },
+    "faq": {
+      "type": "ms-faq",
+      "settings": {
+        "open_first": true
+      }
+    },
+    "help": {
+      "type": "ms-contact-info",
+      "settings": {
+        "heading": "Still Have Questions?",
+        "text": "Our team is happy to help."
+      },
+      "blocks": {
+        "email": {
+          "type": "card",
+          "settings": {
+            "icon": "chat_bubble",
+            "title": "Email",
+            "text": "moosoonmall7@gmail.com",
+            "link": "mailto:moosoonmall7@gmail.com"
+          }
+        },
+        "wa": {
+          "type": "card",
+          "settings": {
+            "icon": "whatsapp",
+            "title": "WhatsApp",
+            "text": "Chat with our team",
+            "use_whatsapp": true
+          }
+        }
+      },
+      "block_order": [
+        "email",
+        "wa"
+      ]
+    }
+  },
+  "order": [
+    "banner",
+    "faq",
+    "help"
+  ]
+}

@@ -1,0 +1,149 @@
+{% comment %}
+  MoonSoon contact cards: icon + title + text, each optionally linked.
+  A card with link "whatsapp" uses the number from Theme settings → MoonSoon WhatsApp button.
+{% endcomment %}
+{%- assign wa = settings.ms_wa_number | remove: '+' | remove: ' ' | remove: '-' -%}
+<div class="ms-sec" style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="ms-sec__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="ms-sec__sub">{{ section.settings.text }}</p>
+    {%- endif -%}
+    <ul class="ms-contact">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign s = block.settings
+          assign link = s.link
+          if s.use_whatsapp
+            if wa == blank
+              continue
+            endif
+            assign link = 'https://wa.me/' | append: wa
+          endif
+        -%}
+        <li class="ms-contact__card" {{ block.shopify_attributes }}>
+          {%- if link != blank -%}<a href="{{ link }}" class="ms-contact__link"{% if s.use_whatsapp %} target="_blank" rel="noopener"{% endif %}>{%- endif -%}
+          <span class="ms-contact__icon">
+            <svg viewBox="0 0 20 20" aria-hidden="true">{%- render 'icon', icon: s.icon -%}</svg>
+          </span>
+          <strong>{{ s.title }}</strong>
+          {%- if s.text != blank -%}<span>{{ s.text }}</span>{%- endif -%}
+          {%- if link != blank -%}</a>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-contact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-contact__card,
+  .ms-contact__link {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .ms-contact__card {
+    padding: 22px 16px;
+    border: 1.5px solid var(--ms-shadow-color);
+    border-radius: 24px;
+    background: var(--ms-pale);
+    color: var(--ms-card-title);
+    box-shadow: 3px 3px 0 0 var(--ms-shadow-color);
+  }
+
+  .ms-contact__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ms-contact__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+    background: var(--color-background);
+  }
+
+  .ms-contact__icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .ms-contact__card strong {
+    font-size: 16px;
+  }
+
+  .ms-contact__card span:last-child {
+    font-size: 14px;
+    word-break: break-word;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon contact cards",
+  "class": "ms-contact-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We're Here To Help" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Questions about an order or a product? Reach us any way you like." },
+    { "type": "color", "id": "background", "label": "Background" }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "whatsapp", "label": "WhatsApp" },
+            { "value": "question_mark", "label": "Question" },
+            { "value": "chat_bubble", "label": "Chat" },
+            { "value": "stopwatch", "label": "Clock" },
+            { "value": "map_pin", "label": "Map pin" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "box", "label": "Box" },
+            { "value": "lock", "label": "Lock" }
+          ],
+          "default": "chat_bubble"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Email" },
+        { "type": "text", "id": "text", "label": "Text" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "checkbox",
+          "id": "use_whatsapp",
+          "label": "Link to WhatsApp number",
+          "info": "Uses Theme settings → MoonSoon WhatsApp button. Card hidden when no number is set.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon contact cards",
+      "blocks": [{ "type": "card" }, { "type": "card" }, { "type": "card" }]
+    }
+  ]
+}
+{% endschema %}

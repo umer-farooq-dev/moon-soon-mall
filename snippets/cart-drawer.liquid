@@ -110,8 +110,10 @@
                 class="cart-drawer__content"
                 aria-label="{{ 'accessibility.cart' | t }}"
               >
+                {% render 'ms-cart-rewards', part: 'top' %}
                 <scroll-hint class="cart-drawer__items">
                   {% render 'cart-products', context: 'drawer' %}
+                  {% render 'ms-cart-rewards', part: 'upsell' %}
                 </scroll-hint>
 
                 <div class="cart-drawer__summary">

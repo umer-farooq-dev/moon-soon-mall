@@ -60,6 +60,9 @@
       {% paginate collection.products by products_per_page %}
         {% capture children %}
           {% for product in collection.products %}
+            {%- if section.settings.promo_enable and paginate.current_page == 1 and forloop.index == section.settings.promo_position -%}
+              {% render 'ms-promo-tile', s: section.settings %}
+            {%- endif -%}
             <li
               id="{{ section.id }}-{{ product.id }}"
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -265,6 +268,77 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "MoonSoon promo tile"
+    },
+    {
+      "type": "checkbox",
+      "id": "promo_enable",
+      "label": "Show promo tile in grid",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "promo_position",
+      "label": "Position (before product no.)",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "promo_eyebrow",
+      "label": "Small text",
+      "default": "Limited time"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading",
+      "label": "Heading",
+      "default": "Deals under Rs 999"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Text",
+      "default": "Useful picks at budget prices"
+    },
+    {
+      "type": "text",
+      "id": "promo_button",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "promo_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "promo_color_1",
+      "label": "Gradient color 1",
+      "default": "#F08A3E"
+    },
+    {
+      "type": "color",
+      "id": "promo_color_2",
+      "label": "Gradient color 2",
+      "default": "#F7B267"
     }
   ],
   "presets": []
