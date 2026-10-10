@@ -1,0 +1,196 @@
+{% comment %}
+  MoonSoon contact: heading, text, contact lines (email, phone, WhatsApp, hours) and the Shopify contact form,
+  with a big rounded photo on the side. Messages arrive in the store email (Settings → Notifications).
+{% endcomment %}
+{%- liquid
+  assign s = section.settings
+  assign wa = settings.ms_wa_number | remove: '+' | remove: ' ' | remove: '-'
+-%}
+<div class="ms-sec" style="--ms-sec-bg: {{ s.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner ms-about ms-contactx">
+    <div class="ms-about__text">
+      <h1 class="ms-about__title">{{ s.heading | default: page.title }}</h1>
+      {%- if s.text != blank -%}<div class="ms-about__body rte">{{ s.text }}</div>{%- endif -%}
+
+      <ul class="ms-contactx__lines">
+        {%- if s.email != blank -%}
+          <li>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m3 5.5 7 5.5 7-5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <a href="mailto:{{ s.email }}">{{ s.email }}</a>
+          </li>
+        {%- endif -%}
+        {%- if s.phone != blank -%}
+          <li>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.6 2.8 4.3 3.4c-.8.2-1.3 1-1.1 1.8 1.3 5.6 5.2 9.6 10.8 10.8.8.2 1.6-.3 1.8-1.1l.6-2.3c.2-.7-.2-1.4-.8-1.7l-2.2-.9c-.6-.2-1.2 0-1.6.4l-.7.9a8.6 8.6 0 0 1-4.1-4.1l.9-.7c.5-.4.6-1 .4-1.6L7.4 3c-.2-.4-.5-.3-.8-.2Z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+            <a href="tel:{{ s.phone | remove: ' ' }}">{{ s.phone_label }}{{ s.phone }}</a>
+          </li>
+        {%- endif -%}
+        {%- if s.show_whatsapp and wa != blank -%}
+          <li>
+            <svg viewBox="0 0 20 20" aria-hidden="true">{%- render 'icon', icon: 'chat_bubble' -%}</svg>
+            <a href="https://wa.me/{{ wa }}" target="_blank" rel="noopener">{{ s.whatsapp_label }}</a>
+          </li>
+        {%- endif -%}
+        {%- if s.hours != blank -%}
+          <li>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4.3l2.8 1.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>{{ s.hours }}</span>
+          </li>
+        {%- endif -%}
+      </ul>
+
+      {%- form 'contact', class: 'ms-contactx__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="ms-contactx__ok" role="status">{{ s.success_text }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div class="ms-contactx__err" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+        <div class="ms-contactx__row">
+          <input type="text" name="contact[name]" placeholder="{{ s.name_label }}" aria-label="{{ s.name_label }}" autocomplete="name" value="{{ form.name }}">
+          <input type="email" name="contact[email]" placeholder="{{ s.email_label }}" aria-label="{{ s.email_label }}" autocomplete="email" value="{{ form.email }}" required>
+        </div>
+        <input type="tel" name="contact[phone]" placeholder="{{ s.phone_field_label }}" aria-label="{{ s.phone_field_label }}" autocomplete="tel" value="{{ form.phone }}">
+        <textarea name="contact[body]" rows="5" placeholder="{{ s.message_label }}" aria-label="{{ s.message_label }}" required>{{ form.body }}</textarea>
+        <button type="submit" class="button">{{ s.submit_label }}</button>
+      {%- endform -%}
+    </div>
+    <div class="ms-about__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1200 | image_tag: loading: 'eager', alt: s.heading, widths: '600, 900, 1200', sizes: '(min-width: 990px) 48vw, 100vw' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'ms-ph' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ms-contactx {
+    align-items: start;
+  }
+
+  .ms-contactx__lines {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+    color: var(--ms-card-title);
+    font-size: 15px;
+  }
+
+  .ms-contactx__lines li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ms-contactx__lines svg {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .ms-contactx__lines svg [fill='none'] {
+    fill: none;
+  }
+
+  .ms-contactx__lines a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ms-contactx__form {
+    display: grid;
+    gap: 14px;
+  }
+
+  .ms-contactx__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .ms-contactx__form :is(input, textarea) {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1.5px solid var(--ms-card-border);
+    border-radius: 14px;
+    background: var(--color-background);
+    color: inherit;
+    font: inherit;
+    font-size: 15px;
+  }
+
+  .ms-contactx__form :is(input, textarea):focus {
+    outline: 2px solid var(--ms-shadow-color);
+    outline-offset: 1px;
+  }
+
+  .ms-contactx__form .button {
+    justify-self: start;
+  }
+
+  .ms-contactx__ok {
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: var(--ms-light);
+    color: var(--ms-card-title);
+    font-weight: 700;
+  }
+
+  .ms-contactx__err {
+    color: #b42318;
+  }
+
+  .ms-contactx .ms-about__media {
+    position: sticky;
+    top: 24px;
+  }
+
+  @media (max-width: 749px) {
+    .ms-contactx__row {
+      grid-template-columns: 1fr;
+    }
+
+    .ms-contactx .ms-about__media {
+      position: static;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon contact",
+  "class": "ms-contactx-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Contact MoonSoonMall" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>We'd love to hear from you. Fill the form to send us a message or reach our support team.</p>" },
+    { "type": "header", "content": "Contact lines" },
+    { "type": "text", "id": "email", "label": "Email", "default": "moosoonmall7@gmail.com" },
+    { "type": "text", "id": "phone", "label": "Phone", "info": "Empty = hidden" },
+    { "type": "text", "id": "phone_label", "label": "Phone prefix text", "default": "Call: " },
+    { "type": "checkbox", "id": "show_whatsapp", "label": "Show WhatsApp line", "info": "Uses Theme settings → MoonSoon WhatsApp button", "default": true },
+    { "type": "text", "id": "whatsapp_label", "label": "WhatsApp text", "default": "Chat on WhatsApp" },
+    { "type": "text", "id": "hours", "label": "Support hours", "default": "10AM - 10PM (Mon - Sun)" },
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "name_label", "label": "Name placeholder", "default": "Name" },
+    { "type": "text", "id": "email_label", "label": "Email placeholder", "default": "Email" },
+    { "type": "text", "id": "phone_field_label", "label": "Phone placeholder", "default": "Phone" },
+    { "type": "text", "id": "message_label", "label": "Message placeholder", "default": "How can we help you?" },
+    { "type": "text", "id": "submit_label", "label": "Button text", "default": "Submit" },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "Thanks! We got your message and will reply soon." },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Recommended 1200 × 1100 px" },
+    { "type": "color", "id": "background", "label": "Background" }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon contact"
+    }
+  ]
+}
+{% endschema %}

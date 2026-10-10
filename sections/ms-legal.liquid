@@ -1,0 +1,36 @@
+{% comment %}
+  MoonSoon legal / policy page: centered document with uppercase title, "Updated on" date and the page content.
+{% endcomment %}
+{%- liquid
+  assign s = section.settings
+  assign page_date = page.published_at | date: '%B %-d, %Y'
+-%}
+<div class="ms-sec" style="--ms-sec-bg: {{ s.background | default: 'var(--color-background)' }};">
+  <div class="ms-sec__inner ms-legal">
+    <h1 class="ms-legal__title">{{ s.heading | default: page.title }}</h1>
+    {%- if s.updated_text != blank -%}
+      <p class="ms-legal__date">{{ s.updated_text | replace: '[date]', page_date }}</p>
+    {%- endif -%}
+    <div class="ms-legal__body rte">{{ page.content }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MoonSoon legal page",
+  "class": "ms-legal-section",
+  "enabled_on": {
+    "templates": ["page"]
+  },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Empty = page title" },
+    { "type": "text", "id": "updated_text", "label": "Date line", "default": "Updated on [date]", "info": "[date] = page publish date. Empty = hidden." },
+    { "type": "color", "id": "background", "label": "Background" }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon legal page"
+    }
+  ]
+}
+{% endschema %}

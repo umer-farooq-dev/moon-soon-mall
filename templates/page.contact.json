@@ -9,130 +9,14 @@
  */
 {
   "sections": {
-    "banner": {
-      "type": "ms-collection-banner",
+    "main": {
+      "type": "ms-contact",
       "settings": {
-        "show_count": false,
-        "show_media": false
-      }
-    },
-    "cards": {
-      "type": "ms-contact-info",
-      "settings": {
-        "heading": "We're Here To Help",
-        "text": "Questions about an order or a product? Reach us any way you like."
-      },
-      "blocks": {
-        "email": {
-          "type": "card",
-          "settings": {
-            "icon": "chat_bubble",
-            "title": "Email",
-            "text": "moosoonmall7@gmail.com",
-            "link": "mailto:moosoonmall7@gmail.com"
-          }
-        },
-        "wa": {
-          "type": "card",
-          "settings": {
-            "icon": "whatsapp",
-            "title": "WhatsApp",
-            "text": "Chat with our team",
-            "use_whatsapp": true
-          }
-        },
-        "hours": {
-          "type": "card",
-          "settings": {
-            "icon": "stopwatch",
-            "title": "Support Hours",
-            "text": "10AM - 10PM (Mon - Sun)"
-          }
-        },
-        "loc": {
-          "type": "card",
-          "settings": {
-            "icon": "map_pin",
-            "title": "Based In",
-            "text": "Islamabad, Pakistan"
-          }
-        }
-      },
-      "block_order": [
-        "email",
-        "wa",
-        "hours",
-        "loc"
-      ]
-    },
-    "form": {
-      "type": "section",
-      "blocks": {
-        "contact_form_UwiCkQ": {
-          "type": "contact-form",
-          "settings": {
-            "width": "custom",
-            "custom_width": 50,
-            "width_mobile": "custom",
-            "custom_width_mobile": 100,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "submit-button": {
-              "type": "contact-form-submit-button",
-              "static": true,
-              "settings": {
-                "label": "Submit",
-                "style_class": "button",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        }
-      },
-      "block_order": [
-        "contact_form_UwiCkQ"
-      ],
-      "name": "t:names.contact_form",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "padding-block-start": 32,
-        "padding-block-end": 84
+        "image": "shopify://shop_images/ms-contact.jpg"
       }
     }
   },
   "order": [
-    "banner",
-    "cards",
-    "form"
+    "main"
   ]
 }

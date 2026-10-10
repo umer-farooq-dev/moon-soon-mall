@@ -1177,3 +1177,145 @@
     justify-content: flex-start;
   }
 }
+
+/* FAQ page: white cards with + / - (Jenpharm style) */
+.ms-acc--plus .ms-acc__row {
+  border-color: rgb(var(--color-foreground-rgb) / 0.12);
+  border-radius: 14px;
+  background: var(--color-background);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
+}
+
+.ms-acc--plus .ms-acc__row summary {
+  font-size: 15px;
+}
+
+.ms-acc--plus .ms-acc__row summary svg {
+  display: none;
+}
+
+.ms-acc--plus .ms-acc__row summary::after {
+  content: '+';
+  flex: none;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.ms-acc--plus .ms-acc__row[open] summary::after {
+  content: '\2212';
+}
+
+/* Legal pages + Shopify policy pages: centered document */
+.ms-legal,
+.shopify-policy__container {
+  max-width: 680px !important;
+  margin-inline: auto;
+  padding-block: 48px 64px;
+}
+
+.ms-legal__title,
+.shopify-policy__title h1 {
+  margin: 0 0 6px;
+  color: var(--ms-card-title);
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ms-legal__date {
+  margin: 0 0 28px;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.ms-legal__body,
+.shopify-policy__body {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.ms-legal__body :is(h2, h3, h4),
+.shopify-policy__body :is(h2, h3, h4) {
+  margin: 26px 0 8px;
+  color: var(--ms-card-title);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ms-legal__body h3,
+.shopify-policy__body h3 {
+  font-size: 16px;
+}
+
+.ms-legal__body li,
+.shopify-policy__body li {
+  margin-bottom: 6px;
+}
+
+
+/* Image + text (About, Contact) */
+.ms-about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 4vw, 60px);
+}
+
+.ms-about--left .ms-about__media {
+  order: -1;
+}
+
+.ms-about__eyebrow {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ms-about__title {
+  margin: 0 0 18px;
+  color: var(--ms-card-title);
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.ms-about__body {
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgb(var(--color-foreground-rgb) / 0.85);
+}
+
+.ms-about__body :is(h2, h3) {
+  color: var(--ms-card-title);
+}
+
+.ms-about__media {
+  overflow: hidden;
+  aspect-ratio: 1.08;
+  border-radius: 24px;
+  background: var(--ms-pale);
+}
+
+.ms-about__media :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 749px) {
+  .ms-about {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-about .ms-about__media {
+    order: -1;
+  }
+}
