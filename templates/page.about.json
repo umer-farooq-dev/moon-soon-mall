@@ -9,37 +9,16 @@
  */
 {
   "sections": {
-    "banner": {
-      "type": "ms-collection-banner",
-      "settings": {
-        "show_count": false,
-        "show_media": false
-      }
-    },
     "main": {
-      "type": "main-page",
-      "blocks": {
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "page-content"
-      ],
+      "type": "ms-about",
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "heading": "Our Story",
+        "image": "shopify://shop_images/ms-about.jpg",
+        "image_position": "right"
       }
     },
     "trust": {
       "type": "ms-trust-bar",
-      "settings": {
-        "scroll": true
-      },
       "blocks": {
         "t1": {
           "type": "item",
@@ -83,14 +62,13 @@
         "t3",
         "t4",
         "t5"
-      ]
+      ],
+      "settings": {
+        "scroll": true
+      }
     },
     "tiles": {
       "type": "ms-category-tiles",
-      "settings": {
-        "heading": "Shop By Category",
-        "columns": 4
-      },
       "blocks": {
         "c1": {
           "type": "tile",
@@ -134,18 +112,147 @@
         "c2",
         "c3",
         "c4"
-      ]
+      ],
+      "settings": {
+        "heading": "",
+        "columns": 4
+      }
     },
-    "quote": {
-      "type": "ms-quote",
-      "settings": {}
+    "recs": {
+      "type": "ms-product-tabs",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 12,
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 60,
+            "border_radius": 28,
+            "padding-block-start": 10,
+            "padding-block-end": 16,
+            "padding-inline-start": 10,
+            "padding-inline-end": 10
+          },
+          "blocks": {
+            "product_card_gallery_677WP3": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 20,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_YXxMTj": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "ms_card_buy": {
+              "type": "buy-buttons",
+              "name": "Add to cart",
+              "settings": {
+                "stacking": true,
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {}
+            },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "ms_badges",
+            "product_card_gallery_677WP3",
+            "ms_rating",
+            "product_title_YXxMTj",
+            "ms_price",
+            "ms_card_buy"
+          ]
+        }
+      },
+      "settings": {
+        "heading": "You Might Also Like",
+        "subheading": "",
+        "limit": 10,
+        "show_view_all": false,
+        "view_all_label": "View All",
+        "collection_1": "best-sellers",
+        "label_1": "Best Sellers",
+        "rating_text": ""
+      }
     }
   },
   "order": [
-    "banner",
     "main",
     "trust",
     "tiles",
-    "quote"
+    "recs"
   ]
 }

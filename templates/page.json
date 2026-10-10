@@ -9,35 +9,12 @@
  */
 {
   "sections": {
-    "banner": {
-      "type": "ms-collection-banner",
-      "settings": {
-        "show_count": false,
-        "show_media": false
-      }
-    },
     "main": {
-      "type": "main-page",
-      "blocks": {
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "page-content"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "padding-block-start": 40,
-        "padding-block-end": 80
-      }
+      "type": "ms-legal",
+      "settings": {}
     }
   },
   "order": [
-    "banner",
     "main"
   ]
 }

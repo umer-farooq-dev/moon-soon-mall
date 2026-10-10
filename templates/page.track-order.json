@@ -9,13 +9,6 @@
  */
 {
   "sections": {
-    "banner": {
-      "type": "ms-collection-banner",
-      "settings": {
-        "show_count": false,
-        "show_media": false
-      }
-    },
     "track": {
       "type": "ms-track-order",
       "settings": {},
@@ -50,7 +43,6 @@
     }
   },
   "order": [
-    "banner",
     "track"
   ]
 }
