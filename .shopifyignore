@@ -1,0 +1,5 @@
+docs/*
+.claude/*
+README.md
+LICENSE.md
+release-notes.md
