@@ -67,7 +67,9 @@
 }
 
 .product-card .product-media-container img {
-  mix-blend-mode: multiply;
+  padding: var(--ms-card-image-padding);
+  border-radius: calc(var(--ms-card-media-radius) + var(--ms-card-image-padding));
+  object-position: center;
 }
 
 /* No hover quick-add over the image: cards have their own add to cart button */
@@ -76,22 +78,24 @@
   display: none !important;
 }
 
-.product-card :is(.product-title, .product-card__title, [class*='title']) :is(a, p, span, h3) {
-  color: var(--ms-card-title);
-}
-
-.product-card__content .text-block:has(.title-text),
-.product-card__content .product-title {
+/* Title: bold, centered, one line (two on mobile) */
+.product-card__content [ref='productTitleLink'] .text-block {
+  width: 100%;
   text-align: center;
   justify-content: center;
 }
 
-.product-card .title-text,
-.product-card__content .product-title :is(p, a, span) {
-  font-weight: 600;
-  font-size: clamp(15px, 1.35vw, 18px);
-  line-height: 1.3;
-  color: var(--ms-card-title);
+.product-card__content [ref='productTitleLink'] :is(.text-block, p) {
+  font-family: var(--font-heading--family) !important;
+  font-weight: 700 !important;
+  font-size: clamp(15px, 1.3vw, 18px) !important;
+  line-height: 1.25 !important;
+  color: var(--ms-card-title) !important;
+  text-transform: none !important;
+}
+
+.product-card__content [ref='productTitleLink'] p {
+  margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -159,6 +163,28 @@
   aspect-ratio: 1;
   margin-top: 4px;
   transform: rotate(-8deg);
+}
+
+@keyframes ms-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ms-card-badges__sticker--spin svg {
+  animation: ms-spin 9s linear infinite;
+}
+
+.ms-card-badges__sticker-img {
+  display: block;
+  width: 74px;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-card-badges__sticker--spin svg {
+    animation: none;
+  }
 }
 
 .ms-card-badges__sticker svg {
@@ -241,8 +267,13 @@
     padding: 5px 8px;
   }
 
-  .ms-card-badges__sticker {
+  .ms-card-badges__sticker,
+  .ms-card-badges__sticker-img {
     width: 54px;
+  }
+
+  .product-card__content [ref='productTitleLink'] p {
+    -webkit-line-clamp: 2;
   }
 
   .ms-card-badges__sticker span {

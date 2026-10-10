@@ -114,7 +114,7 @@
     "ms_pale_color": "{{ settings.color_palette.color2 }}",
     "ms_highlight_color": "{{ settings.color_palette.color7 }}",
     "ms_card_media_radius": 20,
-    "ms_card_media_background": "{{ settings.color_palette.color2 }}",
+    "ms_card_media_background": "#FFFFFF",
     "ms_card_hover_shadow": true,
     "quick_add": false,
     "mobile_quick_add": false,
