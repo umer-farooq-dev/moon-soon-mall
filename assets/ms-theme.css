@@ -1319,3 +1319,343 @@
     order: -1;
   }
 }
+
+/* ---------- Product page v2 (Jenpharm layout) ---------- */
+
+/* Gallery: thumbnails on the left, main image in a rounded tinted box */
+.product-information .product-media-container,
+.product-information .product-media {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.product-information .product-media-container {
+  background: var(--ms-pale);
+}
+
+.product-information .product-media img {
+  object-fit: contain;
+}
+
+.product-information .slideshow-controls__thumbnail {
+  overflow: hidden;
+  border: 1.5px solid var(--ms-card-border);
+  border-radius: 16px;
+  background: #fff;
+  opacity: 1;
+}
+
+.product-information .slideshow-controls__thumbnail[aria-selected='true'] {
+  border-color: var(--ms-shadow-color);
+  box-shadow: 0 0 0 1.5px var(--ms-shadow-color);
+}
+
+.product-information .slideshow-controls__thumbnail img {
+  object-fit: contain;
+}
+
+.product-information .slideshow-control:not(.slideshow-controls__thumbnail):not(.icon-pause):not(.icon-play) {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ms-card-title);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.12);
+}
+
+/* Title */
+.product-information .product-details h1 {
+  color: var(--ms-card-title);
+  font-size: clamp(26px, 2.3vw, 32px);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/* Price */
+.ms-pdp-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.ms-pdp-price__now {
+  color: var(--ms-card-title);
+  font-size: clamp(26px, 2.2vw, 30px);
+  font-weight: 800;
+}
+
+.ms-pdp-price__was {
+  font-size: 18px;
+  opacity: 0.55;
+}
+
+.ms-pdp-price__off {
+  padding: 4px 12px;
+  border-radius: 62px;
+  background: var(--ms-accent);
+  color: var(--ms-accent-text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* Short description */
+.ms-pdp-intro {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgb(var(--color-foreground-rgb) / 0.85);
+}
+
+.ms-pdp-intro p {
+  margin: 0;
+}
+
+.ms-pdp-intro strong {
+  color: var(--ms-card-title);
+}
+
+/* Benefit pills: outlined like Jenpharm */
+.ms-pdp-benefits li {
+  border-color: var(--ms-shadow-color);
+  background: var(--ms-pale);
+  font-weight: 500;
+}
+
+/* Offer boxes */
+.ms-offers {
+  gap: 14px;
+  padding: 0;
+}
+
+.ms-offer-box {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  border: 1.5px solid var(--ms-card-border);
+  border-radius: 18px;
+  background: var(--color-background);
+  box-shadow: none;
+}
+
+.ms-offer-box:has(input:checked) {
+  border-color: var(--ms-shadow-color);
+  box-shadow: 0 0 0 1px var(--ms-shadow-color);
+}
+
+.ms-offer-box--deal {
+  border-color: var(--ms-accent);
+  background: color-mix(in srgb, var(--ms-accent) 8%, #fff);
+}
+
+.ms-offer-box--deal:has(input:checked) {
+  border-color: var(--ms-accent);
+  box-shadow: 0 0 0 1px var(--ms-accent);
+}
+
+.ms-offer-box__head {
+  position: static;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 0;
+  background: var(--ms-light);
+  color: var(--ms-card-title);
+  font-size: 15px;
+  font-weight: 700;
+  transform: none;
+}
+
+.ms-offer-box--deal .ms-offer-box__head {
+  background: linear-gradient(90deg, var(--ms-accent), color-mix(in srgb, var(--ms-accent) 70%, #fff));
+  color: var(--ms-accent-text);
+}
+
+.ms-offer-box__head em {
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ms-accent);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.ms-offer-box__main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+}
+
+.ms-offer-box__main input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border-radius: 6px;
+  accent-color: var(--ms-shadow-color);
+}
+
+.ms-offer-box--deal .ms-offer-box__main input {
+  accent-color: var(--ms-accent);
+}
+
+.ms-offer-box__info {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ms-offer-box__title {
+  color: var(--ms-card-title);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ms-offer-box--deal .ms-offer-box__title,
+.ms-offer-box--deal .ms-offer-box__price strong {
+  color: color-mix(in srgb, var(--ms-accent) 75%, #000);
+}
+
+.ms-offer-box__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  text-align: left;
+}
+
+.ms-offer-box__price strong {
+  color: var(--ms-card-title);
+  font-size: 17px;
+}
+
+.ms-offer-box__price s {
+  color: #d92d20;
+  font-size: 14px;
+  opacity: 1;
+}
+
+.ms-offer-box__perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.ms-offer-box__img {
+  display: flex;
+  flex: none;
+}
+
+.ms-offer-box__img img {
+  width: 64px;
+  height: 76px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.ms-offer-box__img img + img {
+  margin-left: -30px;
+}
+
+/* Delivery pill + trust row */
+.ms-pdp-delivery__pill {
+  justify-self: start;
+  padding: 10px 20px;
+  font-style: italic;
+  font-weight: 500;
+  text-align: left;
+}
+
+.ms-pdp-delivery__icons li {
+  display: flex;
+  align-items: center;
+  justify-items: start;
+  gap: 8px;
+  text-align: left;
+}
+
+.ms-pdp-delivery__icons svg {
+  flex: none;
+}
+
+.ms-pdp-delivery__icons strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ms-shadow-color) 40%, transparent);
+  text-decoration-thickness: 5px;
+  text-underline-offset: -1px;
+}
+
+.ms-pdp-delivery__icons small {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+/* Buttons: price inside Add to cart, outline Buy it now */
+.ms-atc-price {
+  display: none;
+}
+
+.product-information .ms-atc-price {
+  display: inline;
+}
+
+.product-information .shopify-payment-button__button--unbranded {
+  border: 1.5px solid var(--ms-shadow-color) !important;
+  border-radius: var(--style-border-radius-buttons-primary, 17px) !important;
+  background: var(--color-background) !important;
+  color: var(--ms-card-title) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  box-shadow: var(--ms-btn-depth) var(--ms-btn-depth) 0 0 var(--ms-shadow-color);
+}
+
+.product-information .shopify-payment-button__button--unbranded::before {
+  content: '\1F512';
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+/* Accordions: chevron on the right, like Jenpharm */
+.product-information .ms-acc__row {
+  border-color: var(--ms-shadow-color);
+  border-width: 1px;
+  background: var(--ms-pale);
+}
+
+.product-information .ms-acc__row summary svg {
+  transform: rotate(-90deg);
+}
+
+.product-information .ms-acc__row[open] summary svg {
+  transform: rotate(0deg);
+}
+
+/* Pair it with */
+.product-information .ms-pair__heading {
+  font-size: 22px;
+}
+
+@media (max-width: 749px) {
+  .ms-offer-box__img img {
+    width: 52px;
+    height: 62px;
+  }
+
+  .ms-pdp-delivery__icons {
+    gap: 6px;
+  }
+}

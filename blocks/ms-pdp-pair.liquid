@@ -7,6 +7,22 @@
   if p.id == closest.product.id
     assign p = nil
   endif
+  if p == blank and block.settings.auto
+    for c in closest.product.collections
+      if c.handle == 'all' or c.handle == 'best-sellers' or c.handle == 'new-arrivals'
+        continue
+      endif
+      for cp in c.products limit: 8
+        if cp.id != closest.product.id and cp.available
+          assign p = cp
+          break
+        endif
+      endfor
+      if p != blank
+        break
+      endif
+    endfor
+  endif
 -%}
 {%- if p != blank -%}
   {%- assign v = p.selected_or_first_available_variant -%}
@@ -41,6 +57,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Pair It With" },
     { "type": "text", "id": "button", "label": "Button text", "default": "Add to cart" },
+    { "type": "checkbox", "id": "auto", "label": "No product set? Pick one from the same collection", "default": true },
     {
       "type": "product",
       "id": "product",

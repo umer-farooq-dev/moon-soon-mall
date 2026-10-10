@@ -1,8 +1,19 @@
 {% doc %}
   MoonSoon benefit pills with a tick, from the product's "Benefit pills" metafield.
 {% enddoc %}
-{%- assign list = closest.product.metafields.custom.benefits.value -%}
-{%- if list.size > 0 -%}
+{%- liquid
+  assign list = closest.product.metafields.custom.benefits.value
+  if list == blank and block.settings.from_description
+    assign items = closest.product.description | split: '<li>'
+    assign list = ''
+    for it in items offset: 1 limit: block.settings.max
+      assign t = it | split: '</li>' | first | strip_html | strip
+      assign list = list | append: t | append: '|~|'
+    endfor
+    assign list = list | split: '|~|'
+  endif
+-%}
+{%- if list != blank -%}
   <ul class="ms-pdp-benefits" {{ block.shopify_attributes }}>
     {%- for b in list -%}
       <li>
@@ -21,7 +32,9 @@
     {
       "type": "paragraph",
       "content": "Products → product → Metafields → Benefit pills (3 short lines work best)"
-    }
+    },
+    { "type": "checkbox", "id": "from_description", "label": "No pills set? Use the bullet points of the description", "default": true },
+    { "type": "range", "id": "max", "label": "Max pills", "min": 1, "max": 6, "step": 1, "default": 3 }
   ],
   "presets": [
     {

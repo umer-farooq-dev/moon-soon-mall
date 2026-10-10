@@ -8,11 +8,12 @@
   assign to_ts = s.days_max | times: 86400 | plus: now
   assign from = from_ts | date: s.date_format
   assign to = to_ts | date: s.date_format
+  assign dates = '<strong>' | append: from | append: ' - ' | append: to | append: '</strong>'
 -%}
 <div class="ms-pdp-delivery" {{ block.shopify_attributes }}>
   {%- if s.text != blank -%}
     <p class="ms-pdp-delivery__pill">
-      {{ s.text | replace: '[from]', from | replace: '[to]', to }}
+      {{ s.text | replace: '[from] – [to]', dates | replace: '[from] - [to]', dates | replace: '[from]', from | replace: '[to]', to }}
     </p>
   {%- endif -%}
   <ul class="ms-pdp-delivery__icons">
@@ -20,11 +21,12 @@
       {%- liquid
         assign t_key = 'text_' | append: i
         assign i_key = 'icon_' | append: i
+        assign sub_key = 'sub_' | append: i
       -%}
       {%- if s[t_key] != blank -%}
         <li>
           <svg viewBox="0 0 20 20" aria-hidden="true">{%- render 'icon', icon: s[i_key] -%}</svg>
-          <span>{{ s[t_key] }}</span>
+          <span><strong>{{ s[t_key] }}</strong>{%- if s[sub_key] != blank -%}<small>{{ s[sub_key] }}</small>{%- endif -%}</span>
         </li>
       {%- endif -%}
     {%- endfor -%}
@@ -40,7 +42,7 @@
       "type": "text",
       "id": "text",
       "label": "Delivery text",
-      "default": "Estimated delivery: [from] – [to]",
+      "default": "Estimated delivery time: [from] - [to]",
       "info": "[from] and [to] are dates. Leave empty to hide."
     },
     { "type": "range", "id": "days_min", "label": "Delivery from (days)", "min": 0, "max": 15, "step": 1, "default": 2 },
@@ -66,6 +68,7 @@
       ],
       "default": "truck"
     },
+    { "type": "text", "id": "sub_1", "label": "Small text 1", "default": "Pay when it arrives" },
     { "type": "text", "id": "text_1", "label": "Text 1", "default": "Cash on Delivery" },
     {
       "type": "select", "id": "icon_2", "label": "Icon 2",
@@ -76,6 +79,7 @@
       ],
       "default": "return"
     },
+    { "type": "text", "id": "sub_2", "label": "Small text 2", "default": "Damaged or wrong item" },
     { "type": "text", "id": "text_2", "label": "Text 2", "default": "7-Day Exchange" },
     {
       "type": "select", "id": "icon_3", "label": "Icon 3",
@@ -86,6 +90,7 @@
       ],
       "default": "chat_bubble"
     },
+    { "type": "text", "id": "sub_3", "label": "Small text 3", "default": "Before we dispatch" },
     { "type": "text", "id": "text_3", "label": "Text 3", "default": "Order Confirmed On Call" }
   ],
   "presets": [

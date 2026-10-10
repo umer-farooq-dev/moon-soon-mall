@@ -69,6 +69,7 @@ document.addEventListener('change', (event) => {
     form.append(qty);
   }
   qty.value = input.value;
+  scope.querySelectorAll('[data-ms-atc-price]').forEach((el) => (el.textContent = ` - ${input.dataset.price}`));
   qty.dispatchEvent(new Event('input', { bubbles: true }));
   qty.dispatchEvent(new Event('change', { bubbles: true }));
 });

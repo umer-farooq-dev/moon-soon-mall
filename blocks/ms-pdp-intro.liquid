@@ -1,0 +1,36 @@
+{% doc %}
+  MoonSoon short description under the price. Uses the "Short description" metafield, else the first
+  paragraph of the product description. Bold words in the text are shown in the brand color.
+{% enddoc %}
+{%- liquid
+  assign product = closest.product
+  assign intro = ''
+  if product.metafields.custom.short_description != blank
+    assign intro = product.metafields.custom.short_description | metafield_tag
+  endif
+  if intro == blank
+    assign first = product.description | split: '</p>' | first
+    if first contains '<p'
+      assign intro = first | append: '</p>'
+    else
+      assign intro = product.description | strip_html | truncatewords: 30
+    endif
+  endif
+-%}
+{%- if intro != blank -%}
+  <div class="ms-pdp-intro" {{ block.shopify_attributes }}>{{ intro }}</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MoonSoon short text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Products → product → Metafields → Short description. Empty = first paragraph of the description."
+    }
+  ],
+  "presets": [{ "name": "MoonSoon short text" }]
+}
+{% endschema %}
