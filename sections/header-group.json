@@ -80,7 +80,7 @@
       "settings": {
         "menu": "ms-main",
         "highlight_item": "Under Rs 999",
-        "sticky": true,
+        "sticky": false,
         "logo_width": 180,
         "logo_width_mobile": 130,
         "show_search": true,
