@@ -1,0 +1,561 @@
+{% comment %}
+  MoonSoon footer: optional logo strip, newsletter, link columns (accordions on mobile), support info, bottom bar.
+{% endcomment %}
+{%- liquid
+  assign bg = section.settings.background | default: 'var(--ms-light)'
+  assign fg = section.settings.text_color | default: 'var(--ms-card-title)'
+  assign logos = section.blocks | where: 'type', 'logo'
+  assign socials = 'facebook,instagram,tiktok,youtube,whatsapp' | split: ','
+-%}
+
+<footer class="ms-footer" style="--ms-ft-bg: {{ bg }}; --ms-ft-fg: {{ fg }};">
+  {%- if logos.size > 0 -%}
+    <div class="ms-footer__logos" aria-label="{{ section.settings.logos_label | escape }}">
+      <div class="ms-footer__logos-track">
+        {%- for half in (1..2) -%}
+          <ul class="ms-footer__logos-list" {% if half == 2 %}aria-hidden="true"{% endif %}>
+            {%- for r in (1..3) -%}
+              {%- for block in logos -%}
+                <li {% if half == 1 and r == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: height: 120 | image_tag: alt: block.settings.label, loading: 'lazy' }}
+                  {%- else -%}
+                    <span>{{ block.settings.label }}</span>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            {%- endfor -%}
+          </ul>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="ms-footer__main">
+    {%- if section.settings.newsletter_heading != blank -%}
+      <div class="ms-footer__news">
+        <h2 class="ms-footer__news-title">{{ section.settings.newsletter_heading }}</h2>
+        {%- form 'customer', id: 'ms-footer-newsletter', class: 'ms-footer__news-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {%- if form.posted_successfully? -%}
+            <p class="ms-footer__news-ok" role="status">{{ section.settings.newsletter_success }}</p>
+          {%- else -%}
+            <label class="visually-hidden" for="ms-footer-email">{{ section.settings.newsletter_placeholder }}</label>
+            <input
+              id="ms-footer-email"
+              type="email"
+              name="contact[email]"
+              required
+              autocomplete="email"
+              placeholder="{{ section.settings.newsletter_placeholder | escape }}"
+            >
+            <button type="submit" class="button">{{ section.settings.newsletter_button }}</button>
+            {%- if form.errors -%}
+              <p class="ms-footer__news-err" role="alert">{{ form.errors.translated_fields.email }} {{ form.errors.messages.email }}</p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+
+    <div class="ms-footer__cols">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <details class="ms-footer__col" open {{ block.shopify_attributes }}>
+              <summary class="ms-footer__heading">
+                {{ block.settings.heading | default: block.settings.menu.title }}
+                <span class="ms-footer__chev" aria-hidden="true">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+              </summary>
+              <ul class="ms-footer__links">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          {%- when 'support' -%}
+            <details class="ms-footer__col" open {{ block.shopify_attributes }}>
+              <summary class="ms-footer__heading">
+                {{ block.settings.heading }}
+                <span class="ms-footer__chev" aria-hidden="true">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+              </summary>
+              <ul class="ms-footer__links">
+                {%- if block.settings.phone != blank -%}
+                  <li><a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></li>
+                {%- endif -%}
+                {%- if block.settings.whatsapp != blank -%}
+                  <li><a href="https://wa.me/{{ block.settings.whatsapp | remove: ' ' | remove: '+' | remove: '-' }}" target="_blank" rel="noopener">WhatsApp: {{ block.settings.whatsapp }}</a></li>
+                {%- endif -%}
+                {%- assign email = block.settings.email | default: shop.email -%}
+                {%- if email != blank -%}
+                  <li><a href="mailto:{{ email }}">{{ email }}</a></li>
+                {%- endif -%}
+                {%- if block.settings.hours != blank -%}
+                  <li>{{ block.settings.hours }}</li>
+                {%- endif -%}
+                {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+                  <li><a href="{{ block.settings.link }}">{{ block.settings.link_label }}</a></li>
+                {%- endif -%}
+              </ul>
+            </details>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="ms-footer__bottom">
+    <p class="ms-footer__copy">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}{% if section.settings.copyright_text != blank %}, {{ section.settings.copyright_text }}{% endif %}
+    </p>
+
+    {%- if section.settings.policy_menu.links.size > 0 -%}
+      <ul class="ms-footer__policies">
+        {%- for link in section.settings.policy_menu.links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <ul class="ms-footer__social">
+      {%- for s in socials -%}
+        {%- assign key = 'social_' | append: s -%}
+        {%- assign url = section.settings[key] -%}
+        {%- if url != blank -%}
+          <li>
+            <a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ s | capitalize }}">
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">{%- render 'icon', icon: s -%}</svg>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</footer>
+
+<script>
+  // Footer columns: open on desktop, collapsed accordions on mobile
+  (() => {
+    const mq = matchMedia('(max-width: 749px)');
+    const set = () =>
+      document.querySelectorAll('.ms-footer__col').forEach((d) => (d.open = !mq.matches));
+    set();
+    mq.addEventListener('change', set);
+    document.addEventListener('click', (e) => {
+      if (!mq.matches && e.target.closest('.ms-footer__heading')) e.preventDefault();
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  .ms-footer {
+    background: var(--ms-ft-bg);
+    color: var(--ms-ft-fg);
+  }
+
+  .ms-footer a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ms-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .ms-footer__logos {
+    overflow: hidden;
+    padding: 22px 0;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+
+  .ms-footer__logos-track {
+    display: flex;
+    width: max-content;
+    animation: ms-ann-scroll 45s linear infinite;
+  }
+
+  .ms-footer__logos-list {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    margin: 0;
+    padding: 0 32px;
+    list-style: none;
+  }
+
+  .ms-footer__logos-list img {
+    display: block;
+    height: 40px;
+    width: auto;
+  }
+
+  .ms-footer__logos-list span {
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+
+  .ms-footer__main {
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding: 48px var(--page-margin, 40px) 24px;
+  }
+
+  .ms-footer__news {
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    margin-bottom: 44px;
+    text-align: center;
+  }
+
+  .ms-footer__news-title {
+    margin: 0;
+    font-size: clamp(20px, 2vw, 26px);
+    font-weight: 800;
+    color: inherit;
+  }
+
+  .ms-footer__news-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: min(520px, 100%);
+  }
+
+  .ms-footer__news-form input[type='email'] {
+    flex: 1 1 240px;
+    height: 48px;
+    padding: 0 20px;
+    border: 1.5px solid var(--ms-ft-fg);
+    border-radius: 999px;
+    background: var(--color-background);
+    font: inherit;
+  }
+
+  .ms-footer__news-form .button {
+    height: 48px;
+    padding-inline: 26px;
+  }
+
+  .ms-footer__news-ok,
+  .ms-footer__news-err {
+    width: 100%;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ms-footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 32px;
+  }
+
+  .ms-footer__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    font-size: 18px;
+    font-weight: 800;
+    list-style: none;
+    cursor: default;
+  }
+
+  .ms-footer__heading::-webkit-details-marker {
+    display: none;
+  }
+
+  .ms-footer__chev {
+    display: none;
+  }
+
+  .ms-footer__links {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 15px;
+  }
+
+  .ms-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 24px;
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding: 20px var(--page-margin, 40px) 28px;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    font-size: 14px;
+  }
+
+  .ms-footer__copy {
+    margin: 0;
+  }
+
+  .ms-footer__policies,
+  .ms-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-footer__social a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ms-ft-fg);
+    color: var(--ms-ft-bg);
+  }
+
+  .ms-footer__social svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  @media (max-width: 749px) {
+    .ms-footer__main {
+      padding: 36px 16px 8px;
+    }
+
+    .ms-footer__cols {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .ms-footer__col {
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    }
+
+    .ms-footer__heading {
+      margin: 0;
+      padding: 18px 0;
+      cursor: pointer;
+    }
+
+    .ms-footer__col[open] .ms-footer__links {
+      padding-bottom: 18px;
+    }
+
+    .ms-footer__chev {
+      display: block;
+    }
+
+    .ms-footer__chev svg {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.2s;
+    }
+
+    .ms-footer__col[open] .ms-footer__chev svg {
+      transform: rotate(90deg);
+    }
+
+    .ms-footer__bottom {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px 16px 28px;
+    }
+
+    .ms-footer__policies {
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon footer",
+  "tag": "div",
+  "class": "ms-footer-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "info": "Empty = Light brand background from Theme settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Empty = Title color from MoonSoon product cards"
+    },
+    {
+      "type": "header",
+      "content": "Logo strip"
+    },
+    {
+      "type": "text",
+      "id": "logos_label",
+      "label": "Logo strip name (for screen readers)",
+      "default": "Payment and delivery partners"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Subscribe for exclusive deals and offers!",
+      "info": "Empty hides the newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button",
+      "label": "Button text",
+      "default": "Sign Up Now"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_success",
+      "label": "Thank-you message",
+      "default": "Thanks for subscribing!"
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Text after copyright",
+      "default": "All rights reserved"
+    },
+    {
+      "type": "link_list",
+      "id": "policy_menu",
+      "label": "Policy links",
+      "default": "footer"
+    },
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook link"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram link"
+    },
+    {
+      "type": "url",
+      "id": "social_tiktok",
+      "label": "TikTok link"
+    },
+    {
+      "type": "url",
+      "id": "social_youtube",
+      "label": "YouTube link"
+    },
+    {
+      "type": "url",
+      "id": "social_whatsapp",
+      "label": "WhatsApp link",
+      "info": "e.g. https://wa.me/923001234567"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Link column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "info": "Empty = menu name"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "type": "support",
+      "name": "Support column",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Support"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone"
+        },
+        {
+          "type": "text",
+          "id": "whatsapp",
+          "label": "WhatsApp number",
+          "info": "With country code, e.g. +92 300 1234567"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "info": "Empty = store email"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Working hours",
+          "default": "10AM - 10PM (Mon - Sun)"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Extra link text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Extra link"
+        }
+      ]
+    },
+    {
+      "type": "logo",
+      "name": "Strip logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Name",
+          "info": "Shown as text when there is no image",
+          "default": "Cash on Delivery"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

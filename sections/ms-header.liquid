@@ -1,0 +1,916 @@
+{% comment %}
+  MoonSoon header: light brand bar (search, logo, CTA, cart), menu bar with mega menu, mobile drawer.
+  Cart and search reuse Horizon's cart drawer (#cart-drawer) and search modal (#search-modal).
+{% endcomment %}
+{%- liquid
+  assign menu = section.settings.menu
+  assign highlight = section.settings.highlight_item | strip | downcase
+
+  assign words = ''
+  if section.settings.search_collection != blank
+    for p in section.settings.search_collection.products limit: 8
+      assign words = words | append: p.title | append: '||'
+    endfor
+  endif
+
+  assign cart_is_drawer = false
+  if settings.cart_type == 'drawer' and template.name != 'cart'
+    assign cart_is_drawer = true
+  endif
+-%}
+
+<script src="{{ 'cart-icon.js' | asset_url }}" type="module" fetchpriority="low"></script>
+<script src="{{ 'ms-header.js' | asset_url }}" defer></script>
+
+<header
+  class="ms-header{% if section.settings.sticky %} ms-header--sticky{% endif %}"
+  style="
+    --ms-hdr-bg: {{ section.settings.bar_bg | default: 'var(--ms-light)' }};
+    --ms-hdr-nav-bg: {{ section.settings.nav_bg | default: 'var(--color-background)' }};
+    --ms-hdr-fg: {{ section.settings.text_color | default: 'var(--ms-card-title)' }};
+    --ms-logo-w: {{ section.settings.logo_width }}px;
+    --ms-logo-w-m: {{ section.settings.logo_width_mobile }}px;
+  "
+>
+  <div class="ms-header__bar">
+    <div class="ms-header__inner">
+      <div class="ms-header__start">
+        <button type="button" class="ms-icon-btn ms-only-mobile" data-ms-drawer-open aria-label="{{ 'accessibility.menu' | t }}">
+          {{ 'icon-menu.svg' | inline_asset_content }}
+        </button>
+        {%- if section.settings.show_search -%}
+          <button
+            type="button"
+            class="ms-search ms-only-desktop"
+            on:click="#search-modal/showDialog"
+            aria-haspopup="dialog"
+            aria-label="{{ 'content.search_input_label' | t }}"
+          >
+            <span class="ms-search__icon" aria-hidden="true">{{ 'icon-search.svg' | inline_asset_content }}</span>
+            <span class="ms-search__text" data-ms-typer data-words="{{ words | escape }}">{{ section.settings.search_placeholder }}</span>
+          </button>
+        {%- endif -%}
+      </div>
+
+      <a href="{{ routes.root_url }}" class="ms-header__logo">
+        {%- if settings.logo != blank -%}
+          {{
+            settings.logo
+            | image_url: width: 600
+            | image_tag: alt: shop.name, widths: '200, 300, 400, 600', sizes: '(min-width: 750px) var(--ms-logo-w), var(--ms-logo-w-m)', loading: 'eager'
+          }}
+        {%- else -%}
+          <span class="ms-header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <div class="ms-header__end">
+        {%- if section.settings.show_search -%}
+          <button
+            type="button"
+            class="ms-icon-btn ms-only-mobile"
+            on:click="#search-modal/showDialog"
+            aria-haspopup="dialog"
+            aria-label="{{ 'content.search_input_label' | t }}"
+          >
+            {{ 'icon-search.svg' | inline_asset_content }}
+          </button>
+        {%- endif -%}
+
+        {%- if section.settings.cta_label != blank and section.settings.cta_link != blank -%}
+          <a href="{{ section.settings.cta_link }}" class="ms-pill ms-pill--outline ms-only-desktop">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+
+        {%- capture cart_inner -%}
+          <cart-icon class="ms-cart{% unless cart == empty %} ms-cart--has-items{% endunless %}">
+            <span class="ms-cart__icon" aria-hidden="true">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+            <span class="ms-cart__label ms-only-desktop">{{ section.settings.cart_label }}</span>
+            {% render 'cart-bubble', limit: 100 %}
+          </cart-icon>
+        {%- endcapture -%}
+
+        {%- if cart_is_drawer -%}
+          <button
+            type="button"
+            class="ms-pill ms-pill--solid ms-cart-btn"
+            on:click="#cart-drawer/toggle"
+            aria-haspopup="dialog"
+            aria-controls="cart-drawer"
+            aria-label="{{ 'accessibility.cart' | t }}"
+            aria-describedby="cart-bubble-text"
+          >
+            {{ cart_inner }}
+          </button>
+        {%- else -%}
+          <a href="{{ routes.cart_url }}" class="ms-pill ms-pill--solid ms-cart-btn" aria-label="{{ 'accessibility.cart' | t }}">
+            {{ cart_inner }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if menu.links.size > 0 -%}
+    <nav class="ms-nav ms-only-desktop" aria-label="{{ menu.title | escape }}">
+      <ul class="ms-nav__list">
+        {%- for link in menu.links -%}
+          {%- assign is_hl = false -%}
+          {%- if highlight != blank and link.title contains section.settings.highlight_item -%}
+            {%- assign is_hl = true -%}
+          {%- endif -%}
+          <li class="ms-nav__item{% if link.links.size > 0 %} ms-nav__item--parent{% endif %}">
+            <a
+              href="{{ link.url }}"
+              class="ms-nav__link{% if is_hl %} ms-nav__link--hl{% endif %}{% if link.active or link.child_active %} is-active{% endif %}"
+              {% if link.links.size > 0 %}aria-haspopup="true"{% endif %}
+            >
+              {{- link.title -}}
+              {%- if link.links.size > 0 -%}
+                <span class="ms-nav__chev" aria-hidden="true">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+              {%- endif -%}
+            </a>
+
+            {%- if link.links.size > 0 -%}
+              <div class="ms-mega">
+                <div class="ms-mega__inner">
+                  {%- assign has_grandchildren = false -%}
+                  {%- for child in link.links -%}
+                    {%- if child.links.size > 0 -%}{%- assign has_grandchildren = true -%}{%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if has_grandchildren -%}
+                    {%- for child in link.links -%}
+                      <div class="ms-mega__col">
+                        <a href="{{ child.url }}" class="ms-mega__heading">{{ child.title }}</a>
+                        {%- if child.links.size > 0 -%}
+                          <ul class="ms-mega__links">
+                            {%- for grandchild in child.links -%}
+                              <li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <ul class="ms-mega__links ms-mega__links--flat">
+                      {%- for child in link.links -%}
+                        <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
+</header>
+
+<dialog class="ms-drawer" data-ms-drawer aria-label="{{ 'accessibility.menu' | t }}">
+  <div class="ms-drawer__panel">
+    <button type="button" class="ms-icon-btn ms-drawer__close" data-ms-drawer-close aria-label="{{ 'accessibility.close_dialog' | t }}">
+      {{ 'icon-close.svg' | inline_asset_content }}
+    </button>
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'drawer_card' -%}
+        <a
+          href="{{ block.settings.link | default: '#' }}"
+          class="ms-drawer__card"
+          style="--ms-card-bg: {{ block.settings.background }};"
+          {{ block.shopify_attributes }}
+        >
+          <span class="ms-drawer__card-text">
+            <strong>{{ block.settings.title }}</strong>
+            {%- if block.settings.subtitle != blank -%}<span>{{ block.settings.subtitle }}</span>{%- endif -%}
+          </span>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 300 | image_tag: class: 'ms-drawer__card-img', loading: 'lazy', alt: '' }}
+          {%- endif -%}
+          <span class="ms-drawer__card-arrow" aria-hidden="true">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <ul class="ms-drawer__menu">
+      {%- for link in menu.links -%}
+        <li>
+          {%- if link.links.size > 0 -%}
+            <details class="ms-drawer__group">
+              <summary class="ms-drawer__item">
+                {{- link.title -}}
+                <span class="ms-drawer__chev" aria-hidden="true">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+              </summary>
+              <ul class="ms-drawer__sub">
+                {%- for child in link.links -%}
+                  <li>
+                    <a href="{{ child.url }}" class="ms-drawer__sublink ms-drawer__sublink--head">{{ child.title }}</a>
+                    {%- for grandchild in child.links -%}
+                      <a href="{{ grandchild.url }}" class="ms-drawer__sublink">{{ grandchild.title }}</a>
+                    {%- endfor -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          {%- else -%}
+            <a href="{{ link.url }}" class="ms-drawer__item">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</dialog>
+
+{% stylesheet %}
+  /* Announcement scrolls away, the rest of the header group sticks */
+  #header-group:has(.ms-header--sticky) {
+    position: sticky;
+    top: calc(-1 * var(--ms-ann-h, 0px));
+    z-index: 40;
+  }
+
+  .ms-only-mobile {
+    display: none !important;
+  }
+
+  @media (max-width: 989px) {
+    .ms-only-mobile {
+      display: inline-flex !important;
+    }
+
+    .ms-only-desktop {
+      display: none !important;
+    }
+  }
+
+  .ms-header {
+    color: var(--ms-hdr-fg);
+  }
+
+  .ms-header__bar {
+    background: var(--ms-hdr-bg);
+  }
+
+  .ms-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding: 18px var(--page-margin, 40px);
+  }
+
+  .ms-header__start,
+  .ms-header__end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ms-header__end {
+    justify-content: flex-end;
+  }
+
+  .ms-header__logo {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ms-header__logo img {
+    display: block;
+    width: var(--ms-logo-w);
+    height: auto;
+  }
+
+  .ms-header__logo-text {
+    font-family: var(--font-heading--family);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .ms-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .ms-icon-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Search pill with typing placeholder */
+  .ms-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: min(340px, 100%);
+    height: 44px;
+    padding: 0 18px;
+    border: 1.5px solid var(--ms-hdr-fg);
+    border-radius: 999px;
+    background: var(--color-background);
+    color: var(--ms-hdr-fg);
+    font: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: text;
+    text-align: left;
+  }
+
+  .ms-search__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ms-search__text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+
+  .ms-search__text.is-typing::after {
+    content: '|';
+    margin-left: 1px;
+    animation: ms-blink 1s steps(1) infinite;
+  }
+
+  @keyframes ms-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Pills (CTA + cart) — 3D like buttons */
+  .ms-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ms-shadow-color);
+    font: inherit;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: calc(var(--ms-btn-depth) / 1.5) calc(var(--ms-btn-depth) / 1.5) 0 0 var(--ms-shadow-color);
+    transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+  }
+
+  .ms-pill:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 0 var(--ms-shadow-color);
+  }
+
+  .ms-pill--outline {
+    background: var(--color-background);
+    color: var(--ms-shadow-color);
+  }
+
+  .ms-pill--solid {
+    background: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+  }
+
+  .ms-cart {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ms-cart__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ms-cart .cart-bubble {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    --cart-bubble-background: var(--color-background);
+    --cart-bubble-text: var(--color-primary-button-background);
+  }
+
+  .ms-cart .cart-bubble__background {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--cart-bubble-background);
+  }
+
+  .ms-cart .cart-bubble__text {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--cart-bubble-text);
+  }
+
+  /* Menu bar */
+  .ms-nav {
+    position: relative;
+    background: var(--ms-hdr-nav-bg);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+  }
+
+  .ms-nav__list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0 var(--page-margin, 40px);
+    list-style: none;
+  }
+
+  .ms-nav__item + .ms-nav__item {
+    border-left: 1px solid rgb(var(--color-foreground-rgb) / 0.18);
+  }
+
+  .ms-nav__item {
+    margin-block: 18px;
+  }
+
+  .ms-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ms-hdr-fg);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ms-nav__link:hover,
+  .ms-nav__link.is-active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+
+  .ms-nav__link--hl {
+    color: var(--ms-accent);
+  }
+
+  .ms-nav__chev svg {
+    width: 10px;
+    height: 10px;
+    transform: rotate(-90deg);
+    transition: transform 0.2s;
+  }
+
+  .ms-nav__item--parent:is(:hover, :focus-within) .ms-nav__chev svg {
+    transform: rotate(0deg);
+  }
+
+  /* Mega menu: full-width panel under the menu bar */
+  .ms-mega {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 30;
+    background: var(--color-background);
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    box-shadow: 0 18px 30px rgb(0 0 0 / 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0s 0.18s;
+  }
+
+  .ms-nav__item--parent:is(:hover, :focus-within) .ms-mega {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+
+  .ms-mega__inner {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    max-width: var(--page-width, 1440px);
+    margin-inline: auto;
+    padding: 32px var(--page-margin, 40px) 40px;
+  }
+
+  .ms-mega__heading {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ms-hdr-fg);
+    text-decoration: none;
+  }
+
+  .ms-mega__links {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-mega__links--flat {
+    grid-auto-flow: column;
+    grid-template-rows: repeat(6, auto);
+    column-gap: 56px;
+  }
+
+  .ms-mega__links a {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 15px;
+  }
+
+  .ms-mega__links a:hover {
+    color: var(--ms-hdr-fg);
+    text-decoration: underline;
+  }
+
+  /* Mobile drawer */
+  .ms-drawer {
+    width: min(420px, 92vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-background);
+    color: var(--ms-hdr-fg);
+  }
+
+  .ms-drawer::backdrop {
+    background: rgb(0 0 0 / 0.4);
+  }
+
+  .ms-drawer[open] {
+    animation: ms-drawer-in 0.25s ease-out;
+  }
+
+  @keyframes ms-drawer-in {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+
+  .ms-drawer__panel {
+    display: grid;
+    gap: 14px;
+    padding: 16px 18px 32px;
+  }
+
+  .ms-drawer__close {
+    justify-self: start;
+  }
+
+  .ms-drawer__card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 118px;
+    padding: 16px 20px;
+    border-radius: 20px;
+    background: var(--ms-card-bg, var(--ms-pale));
+    color: var(--ms-hdr-fg);
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .ms-drawer__card-text {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 4px;
+    max-width: 62%;
+  }
+
+  .ms-drawer__card-text strong {
+    font-size: 21px;
+    line-height: 1.15;
+    font-weight: 800;
+  }
+
+  .ms-drawer__card-text span {
+    font-size: 14px;
+  }
+
+  .ms-drawer__card-img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    max-width: 45%;
+    object-fit: contain;
+  }
+
+  .ms-drawer__card-arrow {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-background);
+  }
+
+  .ms-drawer__card-arrow svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .ms-drawer__menu {
+    display: grid;
+    gap: 12px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ms-drawer__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 58px;
+    padding: 0 20px;
+    border: 1.5px solid var(--ms-hdr-fg);
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ms-hdr-fg);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .ms-drawer__item::-webkit-details-marker {
+    display: none;
+  }
+
+  .ms-drawer__chev svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s;
+  }
+
+  .ms-drawer__group[open] .ms-drawer__chev svg {
+    transform: rotate(90deg);
+  }
+
+  .ms-drawer__sub {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 14px 20px 6px;
+    list-style: none;
+  }
+
+  .ms-drawer__sub li {
+    display: grid;
+    gap: 8px;
+  }
+
+  .ms-drawer__sublink {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 15px;
+  }
+
+  .ms-drawer__sublink--head {
+    font-weight: 800;
+    color: var(--ms-hdr-fg);
+  }
+
+  @media (max-width: 989px) {
+    .ms-header__inner {
+      grid-template-columns: auto 1fr auto;
+      padding: 10px 14px;
+      gap: 6px;
+    }
+
+    .ms-header__logo {
+      justify-self: center;
+    }
+
+    .ms-header__logo img {
+      width: var(--ms-logo-w-m);
+    }
+
+    .ms-header__logo-text {
+      font-size: 22px;
+    }
+
+    .ms-header__start,
+    .ms-header__end {
+      gap: 2px;
+    }
+
+    /* On mobile the cart is a plain icon with a bubble */
+    .ms-cart-btn {
+      height: 40px;
+      padding: 0 8px;
+      border: 0;
+      background: none;
+      color: inherit;
+      box-shadow: none;
+    }
+
+    .ms-cart .cart-bubble {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      width: 18px;
+      height: 18px;
+      --cart-bubble-background: var(--color-primary-button-background);
+      --cart-bubble-text: var(--color-primary-button-text);
+    }
+
+    .ms-cart__icon svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon header",
+  "tag": "div",
+  "class": "ms-header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Second-level links open as a mega menu; third-level links show as columns."
+    },
+    {
+      "type": "text",
+      "id": "highlight_item",
+      "label": "Highlight menu item",
+      "info": "Menu items whose title contains this text are shown in the accent color, e.g. Under Rs 999"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "paragraph",
+      "content": "Upload the logo in Theme settings → Logo and favicon."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width (desktop)",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Logo width (mobile)",
+      "min": 60,
+      "max": 220,
+      "step": 10,
+      "unit": "px",
+      "default": 130
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search products"
+    },
+    {
+      "type": "collection",
+      "id": "search_collection",
+      "label": "Type product names from",
+      "info": "The search box types these product names one by one. Leave empty for a static placeholder."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Cart text",
+      "default": "Cart"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bar_bg",
+      "label": "Top bar background",
+      "info": "Empty = Light brand background from Theme settings"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg",
+      "label": "Menu bar background"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and icons",
+      "info": "Empty = Title color from MoonSoon product cards"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "drawer_card",
+      "name": "Mobile menu card",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Best Sellers"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Our most loved products"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background",
+          "default": "#DFF3E7"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
