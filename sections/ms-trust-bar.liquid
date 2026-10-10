@@ -1,0 +1,165 @@
+{% comment %}
+  MoonSoon trust bar: icon + text items, scrolling (marquee) or static.
+{% endcomment %}
+{%- if section.blocks.size > 0 -%}
+  {%- capture items -%}
+    {%- for block in section.blocks -%}
+      <li class="ms-trust__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 80 | image_tag: class: 'ms-trust__img', alt: '', loading: 'lazy' }}
+        {%- else -%}
+          <svg class="ms-trust__icon" viewBox="0 0 20 20" aria-hidden="true">{%- render 'icon', icon: block.settings.icon -%}</svg>
+        {%- endif -%}
+        <span>{{ block.settings.text }}</span>
+      </li>
+    {%- endfor -%}
+  {%- endcapture -%}
+  <div
+    class="ms-trust{% if section.settings.scroll %} ms-trust--scroll{% endif %}"
+    style="--ms-trust-bg: {{ section.settings.background | default: 'var(--color-background)' }};"
+  >
+    {%- if section.settings.scroll -%}
+      <div class="ms-trust__track">
+        <ul class="ms-trust__list">{{ items }}{{ items }}</ul>
+        <ul class="ms-trust__list" aria-hidden="true">{{ items }}{{ items }}</ul>
+      </div>
+    {%- else -%}
+      <ul class="ms-trust__list">{{ items }}</ul>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .ms-trust {
+    overflow: hidden;
+    background: var(--ms-trust-bg);
+    color: var(--ms-card-title);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .ms-trust__track {
+    display: flex;
+    width: max-content;
+    animation: ms-ann-scroll 35s linear infinite;
+  }
+
+  .ms-trust__list {
+    display: flex;
+    justify-content: space-around;
+    gap: 56px;
+    margin: 0;
+    padding: 18px 28px;
+    list-style: none;
+  }
+
+  .ms-trust__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .ms-trust__icon {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+
+  .ms-trust__img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 749px) {
+    .ms-trust__list {
+      gap: 32px;
+      padding: 12px 16px;
+    }
+
+    .ms-trust__item {
+      font-size: 14px;
+    }
+
+    .ms-trust__icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ms-trust__track {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MoonSoon trust bar",
+  "class": "ms-trust-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "scroll",
+      "label": "Scroll continuously",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "lock", "label": "Secure lock" },
+            { "value": "chat_bubble", "label": "Chat" },
+            { "value": "star", "label": "Star" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "price_tag", "label": "Price tag" },
+            { "value": "box", "label": "Box" },
+            { "value": "lightning_bolt", "label": "Lightning" },
+            { "value": "map_pin", "label": "Map pin" },
+            { "value": "stopwatch", "label": "Stopwatch" },
+            { "value": "check_box", "label": "Check" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom icon image",
+          "info": "Optional, replaces the icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Cash on Delivery"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MoonSoon trust bar",
+      "blocks": [
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

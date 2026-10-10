@@ -26,6 +26,7 @@
     {%- render 'color-palette' -%}
     {%- render 'ms-theme-vars' -%}
     {{ 'ms-theme.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'ms-sections.js' | asset_url }}" defer></script>
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
