@@ -41,7 +41,7 @@
       {%- endif -%}
 
       {%- if s.heading != blank or s.text != blank or s.button != blank -%}
-        <div class="ms-hero__content ms-hero__content--{{ s.align }}">
+        <div class="ms-hero__content ms-hero__content--{{ s.align }} ms-hero__content--m-{{ s.mobile_position }}">
           {%- if s.eyebrow != blank -%}<span class="ms-hero__eyebrow">{{ s.eyebrow }}</span>{%- endif -%}
           {%- if s.heading != blank -%}<h2 class="ms-hero__heading">{{ s.heading }}</h2>{%- endif -%}
           {%- if s.text != blank -%}<p class="ms-hero__text">{{ s.text }}</p>{%- endif -%}
@@ -132,6 +132,7 @@
   }
 
   .ms-hero__heading {
+    text-shadow: 0 2px 18px rgb(0 0 0 / 0.18);
     margin: 0;
     max-width: 16ch;
     font-size: clamp(34px, 5.2vw, 76px);
@@ -203,6 +204,16 @@
 
     .ms-hero__content {
       padding: 28px 18px;
+    }
+
+    .ms-hero__content--m-top {
+      justify-content: flex-start;
+      padding-top: 40px;
+    }
+
+    .ms-hero__content--m-bottom {
+      justify-content: flex-end;
+      padding-bottom: 56px;
     }
   }
 {% endstylesheet %}
@@ -294,6 +305,17 @@
           "type": "text",
           "id": "button",
           "label": "Button text"
+        },
+        {
+          "type": "select",
+          "id": "mobile_position",
+          "label": "Text position on mobile",
+          "options": [
+            { "value": "top", "label": "Top" },
+            { "value": "center", "label": "Middle" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "center"
         },
         {
           "type": "select",

@@ -21,23 +21,29 @@
             "text": "Fans, coolers and neck fans at special prices.",
             "button": "Shop Cooling",
             "align": "left",
-            "text_color": "#FFFFFF",
+            "text_color": "#0E4A2E",
             "color_1": "#1F6B45",
-            "color_2": "#7BC9A0"
+            "color_2": "#7BC9A0",
+            "image": "shopify://shop_images/ms-hero-cooling.jpg",
+            "image_mobile": "shopify://shop_images/ms-hero-cooling-mobile.jpg",
+            "mobile_position": "top"
           }
         },
         "s2": {
           "type": "slide",
           "settings": {
-            "link": "shopify://collections/new-arrivals",
-            "eyebrow": "New arrivals",
-            "heading": "Smart Gadgets For Everyday Life",
-            "text": "Kitchen, home and beauty essentials delivered to your door.",
-            "button": "Shop New Arrivals",
+            "link": "shopify://collections/kitchen-dining",
+            "eyebrow": "Smart kitchen",
+            "heading": "Cook Smarter, Not Harder",
+            "text": "Oil sprayers, juicers and handy tools for every home.",
+            "button": "Shop Kitchen",
             "align": "left",
             "text_color": "#FFFFFF",
             "color_1": "#0E4A2E",
-            "color_2": "#2E8B57"
+            "color_2": "#2E8B57",
+            "image": "shopify://shop_images/ms-hero-kitchen.jpg",
+            "image_mobile": "shopify://shop_images/ms-hero-kitchen-mobile.jpg",
+            "mobile_position": "top"
           }
         }
       },
