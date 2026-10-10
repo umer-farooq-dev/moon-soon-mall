@@ -417,7 +417,11 @@
         "background": "linear-gradient(180deg, #2E8B57 0%, #7BC9A0 100%)",
         "title_color": "#FFFFFF",
         "collection_1": "new-arrivals",
-        "label_1": ""
+        "label_1": "",
+        "image": "shopify://shop_images/ms-new-arrivals-bg.jpg",
+        "image_mobile": "shopify://shop_images/ms-new-arrivals-bg-mobile.jpg",
+        "layout": "right",
+        "slides": 3
       }
     },
     "deals": {

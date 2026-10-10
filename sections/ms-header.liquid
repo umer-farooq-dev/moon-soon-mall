@@ -34,6 +34,8 @@
     --ms-bar-pad-m: {{ section.settings.bar_padding_mobile }}px;
     --ms-logo-text: {{ section.settings.logo_text_size }}px;
     --ms-search-h: {{ section.settings.search_height }}px;
+    --ms-nav-size: {{ section.settings.nav_font_size }}px;
+    --ms-nav-pad: {{ section.settings.nav_item_space }}px;
   "
 >
   <div class="ms-header__bar">
@@ -437,11 +439,17 @@
 
   .ms-nav__list {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-content: safe center;
+    flex-wrap: nowrap;
     margin: 0;
     padding: 0 var(--page-margin, 40px);
+    overflow-x: auto;
+    scrollbar-width: none;
     list-style: none;
+  }
+
+  .ms-nav__list::-webkit-scrollbar {
+    display: none;
   }
 
   .ms-nav__item + .ms-nav__item {
@@ -449,6 +457,7 @@
   }
 
   .ms-nav__item {
+    flex: none;
     margin-block: 18px;
   }
 
@@ -456,8 +465,8 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 2px 16px;
-    font-size: 16px;
+    padding: 2px var(--ms-nav-pad);
+    font-size: var(--ms-nav-size);
     font-weight: 600;
     color: var(--ms-hdr-fg);
     text-decoration: none;
@@ -813,6 +822,26 @@
       "step": 10,
       "unit": "px",
       "default": 130
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "label": "Menu text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "nav_item_space",
+      "label": "Space around menu items",
+      "min": 4,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 13
     },
     {
       "type": "range",

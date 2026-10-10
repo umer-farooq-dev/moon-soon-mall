@@ -13,12 +13,26 @@
     endif
   endfor
 -%}
+{%- liquid
+  assign bg_img = section.settings.image
+  assign bg_img_m = section.settings.image_mobile | default: bg_img
+  assign layout_class = ''
+  if bg_img != blank and section.settings.layout == 'right'
+    assign layout_class = ' ms-ptabs--right'
+  endif
+-%}
 <div
-  class="ms-sec ms-ptabs"
-  style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }}; {% if section.settings.title_color != blank %}--ms-ptabs-title: {{ section.settings.title_color }};{% endif %}"
+  class="ms-sec ms-ptabs{{ layout_class }}{% if bg_img != blank %} ms-ptabs--image{% endif %}"
+  style="--ms-sec-bg: {{ section.settings.background | default: 'var(--color-background)' }}; --ms-slides: {{ section.settings.slides }}; {% if section.settings.title_color != blank %}--ms-ptabs-title: {{ section.settings.title_color }};{% endif %}"
   data-ms-tabs
 >
-  <div class="ms-sec__inner">
+  {%- if bg_img != blank -%}
+    <picture class="ms-ptabs__bg">
+      <source media="(max-width: 749px)" srcset="{{ bg_img_m | image_url: width: 900 }} 900w, {{ bg_img_m | image_url: width: 1400 }} 1400w" sizes="100vw">
+      {{ bg_img | image_url: width: 2400 | image_tag: loading: 'lazy', alt: '', widths: '1200, 1800, 2400', sizes: '100vw' }}
+    </picture>
+  {%- endif -%}
+  <div class="ms-sec__inner ms-ptabs__content">
     {%- if section.settings.rating_text != blank -%}
       {%- render 'ms-rating-line', text: section.settings.rating_text -%}
     {%- endif -%}
@@ -93,6 +107,45 @@
 {% stylesheet %}
   .ms-ptabs__title {
     color: var(--ms-ptabs-title, inherit);
+  }
+
+  .ms-ptabs--image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ms-ptabs__bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .ms-ptabs__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ms-ptabs--image .ms-ptabs__content {
+    position: relative;
+  }
+
+  @media (min-width: 990px) {
+    .ms-ptabs .ms-slider__track {
+      grid-auto-columns: calc((100% - (var(--ms-slides) - 1) * 20px) / var(--ms-slides));
+    }
+
+    .ms-ptabs--right .ms-ptabs__content {
+      max-width: none;
+      padding-block: 56px;
+      padding-left: 40%;
+      padding-right: 4%;
+    }
+
+    .ms-ptabs--right .ms-ptabs__title,
+    .ms-ptabs--right .ms-ptabs__tabs {
+      justify-content: flex-start;
+      text-align: left;
+    }
   }
 
   .ms-ptabs__tabs {
@@ -188,6 +241,36 @@
       "id": "view_all_label",
       "label": "\"View all\" text",
       "default": "View All"
+    },
+    {
+      "type": "range",
+      "id": "slides",
+      "label": "Cards visible (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Recommended 2400 × 1000 px, with the person / product on the left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Background image (mobile)"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Products position (with image)",
+      "options": [
+        { "value": "right", "label": "Right side" },
+        { "value": "full", "label": "Full width" }
+      ],
+      "default": "right"
     },
     {
       "type": "color_background",
