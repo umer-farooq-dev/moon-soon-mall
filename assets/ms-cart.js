@@ -39,6 +39,13 @@ async function cartRequest(source, action, url, body, lines) {
   }
 }
 
+// "Buy 2 save X%" pill in the cart: bump that line to quantity 2
+document.addEventListener('click', (event) => {
+  const pill = event.target instanceof Element ? event.target.closest('[data-ms-bump]') : null;
+  if (!pill) return;
+  pill.closest('tr, .cart-items__table-row')?.querySelector('button[name="plus"]')?.click();
+});
+
 // Add buttons: pair-it-with, cart upsells
 document.addEventListener('click', async (event) => {
   const btn = event.target instanceof Element ? event.target.closest('[data-ms-add]') : null;

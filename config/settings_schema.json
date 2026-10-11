@@ -2387,6 +2387,26 @@
     "settings": [
       {
         "type": "text",
+        "id": "ms_cart_title",
+        "label": "Cart title",
+        "default": "Your Cart"
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_item_pill",
+        "label": "Pill next to quantity (when 1 in cart)",
+        "default": "Buy 2 save 5%",
+        "info": "Clicking it makes the quantity 2. Create the matching automatic discount in Discounts. Empty = hidden."
+      },
+      {
+        "type": "text",
+        "id": "ms_cart_checkout_label",
+        "label": "Checkout button text",
+        "default": "Secure Checkout",
+        "info": "Empty = default text"
+      },
+      {
+        "type": "text",
         "id": "ms_cart_strip_text",
         "label": "Top strip text",
         "default": "Cash on Delivery all over Pakistan 🚚"

@@ -122,7 +122,14 @@
     "product_card_carousel": false,
     "ms_card_bestseller_collection": "best-sellers",
     "auto_open_cart_drawer": true,
-    "ms_cart_upsell_collection": "under-999"
+    "ms_cart_upsell_collection": "under-999",
+    "currency_code_enabled_cart_total": false,
+    "ms_cart_title": "Your Cart",
+    "ms_cart_item_pill": "Buy 2 save 5%",
+    "ms_cart_checkout_label": "Secure Checkout",
+    "ms_cart_strip_text": "Cash on Delivery all over Pakistan 🚚",
+    "ms_cart_upsell_heading": "🔥 Complete your order with these deals",
+    "ms_cart_upsell_limit": 4
   },
   "presets": {
     "Default": {

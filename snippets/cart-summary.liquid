@@ -223,7 +223,7 @@
     if settings.currency_code_enabled_cart_total
       assign total_price = cart.total_price | money_with_currency
     else
-      assign total_price = cart.total_price | money
+      assign total_price = cart.total_price | money_without_trailing_zeros
     endif
   -%}
 
@@ -269,7 +269,12 @@
     form="cart-form"
   >
     <span class="button-text">
-      {{ 'content.checkout' | t }}
+      {%- if settings.ms_cart_checkout_label != blank -%}
+        <svg class="ms-lock" viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        {{ settings.ms_cart_checkout_label }}
+      {%- else -%}
+        {{ 'content.checkout' | t }}
+      {%- endif -%}
     </span>
   </button>
 
