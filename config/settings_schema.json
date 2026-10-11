@@ -2409,7 +2409,13 @@
         "type": "text",
         "id": "ms_cart_empty_text",
         "label": "Empty cart text",
-        "default": "Looks like you haven't added anything yet. Explore our best picks below!"
+        "default": "Your cart is empty 😞 add any product to unlock great deals 🔥"
+      },
+      {
+        "type": "collection_list",
+        "id": "ms_cart_empty_collections",
+        "label": "Empty cart: collections to show",
+        "limit": 8
       },
       {
         "type": "text",

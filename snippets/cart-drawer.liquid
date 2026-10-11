@@ -24,18 +24,34 @@
 
   {% capture empty_cart_drawer_content %}
     <div
-      class="cart-drawer__content"
+      class="cart-drawer__content ms-cart-empty"
       aria-label="{{ 'accessibility.cart' | t }}"
+      data-cart-drawer-empty
     >
-      <h2
-        class="theme-drawer__title h4"
-        id="cart-drawer-heading"
-      >
-        {{ 'content.your_cart_is_empty' | t }}
-      </h2>
-
-      <div class="cart-drawer__items">
-        {% render 'cart-products', force_empty: true, context: 'drawer' %}
+      {% render 'ms-cart-rewards', part: 'top' %}
+      <div class="ms-cart-empty__body">
+        {%- assign empty_msg = 'content.your_cart_is_empty' | t -%}
+        <p class="ms-cart-empty__msg">{{ settings.ms_cart_empty_text | default: empty_msg }}</p>
+        <a class="button ms-cart-empty__btn" href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}">
+          {{- 'actions.continue_shopping' | t -}}
+        </a>
+        {% render 'ms-cart-rewards', part: 'collections' %}
+      </div>
+      <div class="ms-cart-empty__footer">
+        <p class="ms-cart-empty__total">
+          <span>{{ 'content.cart_estimated_total' | t }}</span>
+          <strong>{{ 0 | money_without_trailing_zeros }}</strong>
+        </p>
+        <button type="button" class="button cart__checkout-button" disabled>
+          <span class="button-text">
+            {%- if settings.ms_cart_checkout_label != blank -%}
+              <svg class="ms-lock" viewBox="0 0 20 20" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              {{ settings.ms_cart_checkout_label }}
+            {%- else -%}
+              {{ 'content.checkout' | t }}
+            {%- endif -%}
+          </span>
+        </button>
       </div>
     </div>
   {% endcapture %}
@@ -63,20 +79,17 @@
           class="cart-drawer__inner{% if cart.empty? %} cart-drawer--empty{% endif %}"
           data-hydration-key="cart-drawer-inner"
         >
-          {%- unless cart.empty? -%}{% render 'ms-cart-rewards', part: 'strip' %}{%- endunless -%}
+          {% render 'ms-cart-rewards', part: 'strip' %}
           {%- if cart.empty? -%}
-            <div class="theme-drawer__header">
-              <button
-                on:click="#cart-drawer/close"
-                class="theme-drawer__close-button cart-drawer__close-button--empty"
-                type="button"
-                aria-label="{{ 'actions.close' | t }}"
-              >
-                <span class="svg-wrapper">
-                  {{- 'icon-close.svg' | inline_asset_content -}}
-                </span>
-              </button>
-            </div>
+            {% assign cart_drawer_title = 'content.cart_title' | t %}
+            {% if settings.ms_cart_title != blank %}{% assign cart_drawer_title = settings.ms_cart_title %}{% endif %}
+            {% capture empty_badge %}<span class="theme-drawer__badge" aria-hidden="true">0</span>{% endcapture %}
+            {% render 'theme-drawer-header',
+              title: cart_drawer_title,
+              drawer_id: 'cart-drawer',
+              heading_id: 'cart-drawer-heading',
+              title_append: empty_badge
+            %}
           {%- else -%}
             {% capture cart_badge_html %}
               <span
