@@ -135,7 +135,8 @@
     "ms_cart_goal_2_amount": 3500,
     "ms_cart_goal_2_label": "Free Gift",
     "ms_cart_progress_text": "You're [amount] away from getting [goal]",
-    "ms_cart_done_text": "🎉 Congrats! You unlocked Free Delivery and a Free Gift"
+    "ms_cart_done_text": "🎉 Congrats! You unlocked Free Delivery and a Free Gift",
+    "ms_cart_empty_text": "Looks like you haven't added anything yet. Explore our best picks below!"
   },
   "presets": {
     "Default": {
