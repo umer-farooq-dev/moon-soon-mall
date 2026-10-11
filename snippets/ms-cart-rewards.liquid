@@ -131,3 +131,21 @@
     </div>
   {%- endif -%}
 {%- endif -%}
+
+{%- if part == 'collections' and settings.ms_cart_empty_collections != blank -%}
+  <ul class="ms-cart-cols">
+    {%- for c in settings.ms_cart_empty_collections -%}
+      {%- assign img = c.image | default: c.products.first.featured_image -%}
+      <li>
+        <a href="{{ c.url }}" class="ms-cart-cols__card">
+          <span class="ms-cart-cols__img">
+            {%- if img != blank -%}
+              {{ img | image_url: width: 360 | image_tag: loading: 'lazy', alt: c.title }}
+            {%- endif -%}
+          </span>
+          <span class="ms-cart-cols__title">{{ c.title }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}
