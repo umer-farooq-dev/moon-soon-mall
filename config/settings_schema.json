@@ -2407,6 +2407,12 @@
       },
       {
         "type": "text",
+        "id": "ms_cart_empty_text",
+        "label": "Empty cart text",
+        "default": "Looks like you haven't added anything yet. Explore our best picks below!"
+      },
+      {
+        "type": "text",
         "id": "ms_cart_strip_text",
         "label": "Top strip text",
         "default": "Cash on Delivery all over Pakistan 🚚"

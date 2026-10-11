@@ -58,6 +58,12 @@
   "
 >
   {% if cart.empty? or force_empty %}
+    {%- if context == 'drawer' -%}
+      <span class="ms-cart-empty__icon" aria-hidden="true">{{- 'icon-cart.svg' | inline_asset_content -}}</span>
+      {%- if settings.ms_cart_empty_text != blank -%}
+        <p class="ms-cart-empty__text">{{ settings.ms_cart_empty_text }}</p>
+      {%- endif -%}
+    {%- endif -%}
     {%- if shop.customer_accounts_enabled and customer == null -%}
       <p>
         {{ 'actions.log_in_html' | t: link: routes.account_login_url }}
@@ -72,6 +78,9 @@
         {{ 'actions.continue_shopping' | t }}
       </span>
     </a>
+    {%- if context == 'drawer' -%}
+      <div class="ms-cart-empty__upsell">{% render 'ms-cart-rewards', part: 'upsell' %}</div>
+    {%- endif -%}
   {%- else -%}
     <span
       class="visually-hidden"
@@ -358,7 +367,8 @@
                       in_cart_quantity: item.quantity,
                       line_index: item.index,
                       class: 'cart-primary-typography',
-                      can_update_quantity: can_update_quantity
+                      can_update_quantity: can_update_quantity,
+                      min: 0
                     %}
 
                     {%- if settings.ms_cart_item_pill != blank and item.quantity == 1 and can_update_quantity -%}
