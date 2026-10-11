@@ -129,7 +129,13 @@
     "ms_cart_checkout_label": "Secure Checkout",
     "ms_cart_strip_text": "Cash on Delivery all over Pakistan 🚚",
     "ms_cart_upsell_heading": "🔥 Complete your order with these deals",
-    "ms_cart_upsell_limit": 4
+    "ms_cart_upsell_limit": 4,
+    "ms_cart_goal_1_amount": 2000,
+    "ms_cart_goal_1_label": "Free Delivery",
+    "ms_cart_goal_2_amount": 3500,
+    "ms_cart_goal_2_label": "Free Gift",
+    "ms_cart_progress_text": "You're [amount] away from getting [goal]",
+    "ms_cart_done_text": "🎉 Congrats! You unlocked Free Delivery and a Free Gift"
   },
   "presets": {
     "Default": {

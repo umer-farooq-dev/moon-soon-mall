@@ -1912,3 +1912,28 @@
   width: 18px;
   height: 18px;
 }
+
+/* Checkout button: lock icon inline with the text */
+#cart-drawer .cart__checkout-button .button-text,
+.cart__checkout-button .button-text {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.cart__checkout-button .ms-lock {
+  display: block;
+  flex: none;
+}
+
+/* Remove button: plain icon, no 3D button style */
+#cart-drawer .cart-items__remove,
+#cart-drawer .cart-items__remove:hover {
+  border: 0 !important;
+  outline: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
