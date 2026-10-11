@@ -63,6 +63,7 @@
           class="cart-drawer__inner{% if cart.empty? %} cart-drawer--empty{% endif %}"
           data-hydration-key="cart-drawer-inner"
         >
+          {%- unless cart.empty? -%}{% render 'ms-cart-rewards', part: 'strip' %}{%- endunless -%}
           {%- if cart.empty? -%}
             <div class="theme-drawer__header">
               <button
@@ -94,6 +95,7 @@
               {% endif %}
             {% endcapture %}
             {% assign cart_drawer_title = 'content.cart_title' | t %}
+            {% if settings.ms_cart_title != blank %}{% assign cart_drawer_title = settings.ms_cart_title %}{% endif %}
             {% render 'theme-drawer-header',
               title: cart_drawer_title,
               drawer_id: 'cart-drawer',
