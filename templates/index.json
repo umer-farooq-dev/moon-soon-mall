@@ -14,36 +14,37 @@
       "blocks": {
         "s1": {
           "type": "slide",
+          "disabled": true,
           "settings": {
+            "image": "shopify://shop_images/ms-hero-cooling.jpg",
+            "image_mobile": "shopify://shop_images/ms-hero-cooling-mobile.jpg",
             "link": "shopify://collections/summer-cooling",
             "eyebrow": "Summer sale",
             "heading": "Beat The Heat This Summer",
             "text": "Fans, coolers and neck fans at special prices.",
             "button": "Shop Cooling",
+            "mobile_position": "top",
             "align": "left",
-            "text_color": "#0E4A2E",
-            "color_1": "#1F6B45",
-            "color_2": "#7BC9A0",
-            "image": "shopify://shop_images/ms-hero-cooling.jpg",
-            "image_mobile": "shopify://shop_images/ms-hero-cooling-mobile.jpg",
-            "mobile_position": "top"
+            "text_color": "#0e4a2e",
+            "color_1": "#1f6b45",
+            "color_2": "#7bc9a0"
           }
         },
         "s2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/ms-hero-kitchen.jpg",
+            "image_mobile": "shopify://shop_images/ms-hero-kitchen-mobile.jpg",
             "link": "shopify://collections/kitchen-dining",
             "eyebrow": "Smart kitchen",
             "heading": "Cook Smarter, Not Harder",
             "text": "Oil sprayers, juicers and handy tools for every home.",
             "button": "Shop Kitchen",
+            "mobile_position": "top",
             "align": "left",
-            "text_color": "#FFFFFF",
-            "color_1": "#0E4A2E",
-            "color_2": "#2E8B57",
-            "image": "shopify://shop_images/ms-hero-kitchen.jpg",
-            "image_mobile": "shopify://shop_images/ms-hero-kitchen-mobile.jpg",
-            "mobile_position": "top"
+            "text_color": "#ffffff",
+            "color_1": "#0e4a2e",
+            "color_2": "#2e8b57"
           }
         }
       },
@@ -105,7 +106,8 @@
         "t5"
       ],
       "settings": {
-        "scroll": true
+        "scroll": true,
+        "background": ""
       }
     },
     "tiles": {
@@ -116,8 +118,9 @@
           "settings": {
             "collection": "kitchen-dining",
             "title": "Shop Kitchen",
-            "color_1": "#2E8B57",
-            "color_2": "#A8DDBF"
+            "link": "",
+            "color_1": "#2e8b57",
+            "color_2": "#a8ddbf"
           }
         },
         "c2": {
@@ -125,8 +128,9 @@
           "settings": {
             "collection": "electronics-gadgets",
             "title": "Shop Gadgets",
-            "color_1": "#3A7BD5",
-            "color_2": "#A9CBF5"
+            "link": "",
+            "color_1": "#3a7bd5",
+            "color_2": "#a9cbf5"
           }
         },
         "c3": {
@@ -134,17 +138,20 @@
           "settings": {
             "collection": "beauty-care",
             "title": "Shop Beauty",
-            "color_1": "#E0679B",
-            "color_2": "#F9C4DB"
+            "link": "",
+            "color_1": "#e0679b",
+            "color_2": "#f9c4db"
           }
         },
         "c4": {
           "type": "tile",
+          "disabled": true,
           "settings": {
             "collection": "fans-cooling",
             "title": "Shop Cooling",
-            "color_1": "#1BA6B6",
-            "color_2": "#B4ECF1"
+            "link": "",
+            "color_1": "#1ba6b6",
+            "color_2": "#b4ecf1"
           }
         }
       },
@@ -156,7 +163,11 @@
       ],
       "settings": {
         "heading": "",
-        "columns": 4
+        "columns": 4,
+        "ratio": 2.7,
+        "ratio_mobile": 2.9,
+        "title_size": 17,
+        "background": ""
       }
     },
     "picks": {
@@ -168,9 +179,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 12,
+            "background_color": "",
             "border": "solid",
             "border_width": 1,
             "border_opacity": 60,
+            "border_color": "",
             "border_radius": 28,
             "padding-block-start": 10,
             "padding-block-end": 16,
@@ -178,6 +191,11 @@
             "padding-inline-end": 10
           },
           "blocks": {
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {},
+              "blocks": {}
+            },
             "product_card_gallery_677WP3": {
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
@@ -186,12 +204,18 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
+                "border_color": "",
                 "border_radius": 20,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
+              "blocks": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {},
               "blocks": {}
             },
             "product_title_YXxMTj": {
@@ -208,7 +232,9 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
+                "background_color": "#00000026",
                 "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -217,13 +243,33 @@
               },
               "blocks": {}
             },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {},
+              "blocks": {}
+            },
             "ms_card_buy": {
               "type": "buy-buttons",
               "name": "Add to cart",
               "settings": {
                 "stacking": true,
+                "text_color": "",
                 "show_pickup_availability": false,
                 "gift_card_form": false,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
                 "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -234,14 +280,24 @@
                   "type": "quantity",
                   "disabled": true,
                   "static": true,
-                  "settings": {},
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
                   "blocks": {}
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "style_class": "button"
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
                   },
                   "blocks": {}
                 },
@@ -254,18 +310,6 @@
                 }
               },
               "block_order": []
-            },
-            "ms_badges": {
-              "type": "ms-card-badges",
-              "settings": {}
-            },
-            "ms_rating": {
-              "type": "ms-card-rating",
-              "settings": {}
-            },
-            "ms_price": {
-              "type": "ms-card-price",
-              "settings": {}
             }
           },
           "block_order": [
@@ -279,20 +323,24 @@
         }
       },
       "settings": {
+        "rating_text": "1,000+ Happy Customers",
         "heading": "Smart Picks For Every Home 🏡",
         "subheading": "Handpicked essentials for kitchen, home and you",
         "limit": 10,
         "show_view_all": true,
         "view_all_label": "View All",
-        "collection_1": "best-sellers",
+        "slides": 4,
+        "layout": "right",
+        "background": "",
+        "title_color": "",
+        "collection_1": "",
         "label_1": "Best Sellers",
         "collection_2": "kitchen-dining",
         "label_2": "Kitchen",
         "collection_3": "electronics-gadgets",
         "label_3": "Gadgets",
         "collection_4": "beauty-care",
-        "label_4": "Beauty",
-        "rating_text": "1,000+ Happy Customers"
+        "label_4": "Beauty"
       }
     },
     "new": {
@@ -304,9 +352,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 12,
+            "background_color": "",
             "border": "solid",
             "border_width": 1,
             "border_opacity": 60,
+            "border_color": "",
             "border_radius": 28,
             "padding-block-start": 10,
             "padding-block-end": 16,
@@ -314,6 +364,11 @@
             "padding-inline-end": 10
           },
           "blocks": {
+            "ms_badges": {
+              "type": "ms-card-badges",
+              "settings": {},
+              "blocks": {}
+            },
             "product_card_gallery_677WP3": {
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
@@ -322,12 +377,18 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
+                "border_color": "",
                 "border_radius": 20,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
+              "blocks": {}
+            },
+            "ms_rating": {
+              "type": "ms-card-rating",
+              "settings": {},
               "blocks": {}
             },
             "product_title_YXxMTj": {
@@ -344,7 +405,9 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
+                "background_color": "#00000026",
                 "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -353,13 +416,33 @@
               },
               "blocks": {}
             },
+            "ms_price": {
+              "type": "ms-card-price",
+              "settings": {},
+              "blocks": {}
+            },
             "ms_card_buy": {
               "type": "buy-buttons",
               "name": "Add to cart",
               "settings": {
                 "stacking": true,
+                "text_color": "",
                 "show_pickup_availability": false,
                 "gift_card_form": false,
+                "recipient_button_style": "default",
+                "recipient_button_background": "{{ settings.color_palette.background }}",
+                "recipient_button_text": "{{ settings.color_palette.foreground }}",
+                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_style": "default",
+                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
+                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "input_style": "default",
+                "input_background_color": "{{ settings.color_palette.background }}",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "border_width": 1,
+                "border_radius": 0,
                 "padding-block-start": 4,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -370,14 +453,24 @@
                   "type": "quantity",
                   "disabled": true,
                   "static": true,
-                  "settings": {},
+                  "settings": {
+                    "input_style": "default",
+                    "input_background_color": "{{ settings.color_palette.background }}",
+                    "input_text_color": "{{ settings.color_palette.foreground }}",
+                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "border_width": 1,
+                    "border_radius": 0
+                  },
                   "blocks": {}
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "style_class": "button"
+                    "style_class": "button",
+                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}"
                   },
                   "blocks": {}
                 },
@@ -390,18 +483,6 @@
                 }
               },
               "block_order": []
-            },
-            "ms_badges": {
-              "type": "ms-card-badges",
-              "settings": {}
-            },
-            "ms_rating": {
-              "type": "ms-card-rating",
-              "settings": {}
-            },
-            "ms_price": {
-              "type": "ms-card-price",
-              "settings": {}
             }
           },
           "block_order": [
@@ -415,125 +496,27 @@
         }
       },
       "settings": {
+        "rating_text": "",
         "heading": "Meet Our Newest Arrivals 🌈",
         "subheading": "",
         "limit": 10,
         "show_view_all": true,
         "view_all_label": "View All New Arrivals",
-        "background": "linear-gradient(180deg, #2E8B57 0%, #7BC9A0 100%)",
-        "title_color": "#FFFFFF",
-        "collection_1": "new-arrivals",
-        "label_1": "",
+        "slides": 3,
         "image": "shopify://shop_images/ms-new-arrivals-bg.jpg",
         "image_mobile": "shopify://shop_images/ms-new-arrivals-bg-mobile.jpg",
         "layout": "right",
-        "slides": 3
+        "background": "linear-gradient(180deg, #2E8B57 0%, #7BC9A0 100%)",
+        "title_color": "#ffffff",
+        "collection_1": "new-arrivals",
+        "label_1": "",
+        "collection_2": "",
+        "label_2": "",
+        "collection_3": "",
+        "label_3": "",
+        "collection_4": "",
+        "label_4": ""
       }
-    },
-    "deals": {
-      "type": "ms-deals",
-      "blocks": {
-        "o1": {
-          "type": "offer",
-          "settings": {
-            "link": "shopify://collections/under-999",
-            "small": "Shop",
-            "big": "Under Rs 999",
-            "note": "Budget-friendly picks",
-            "text_color": "#FFFFFF",
-            "color_1": "#F08A3E",
-            "color_2": "#F7B267"
-          }
-        },
-        "o2": {
-          "type": "offer",
-          "settings": {
-            "link": "shopify://collections/summer-cooling",
-            "small": "Stay cool",
-            "big": "Summer Cooling",
-            "note": "Fans and coolers for hot days",
-            "text_color": "#FFFFFF",
-            "color_1": "#1BA6B6",
-            "color_2": "#6FD3DD"
-          }
-        },
-        "o3": {
-          "type": "offer",
-          "settings": {
-            "link": "shopify://collections/travel-essentials",
-            "small": "On the go",
-            "big": "Travel Essentials",
-            "note": "Pack smart for every trip",
-            "text_color": "#FFFFFF",
-            "color_1": "#2E8B57",
-            "color_2": "#7BC9A0"
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2",
-        "o3"
-      ],
-      "settings": {
-        "eyebrow": "Big savings 💸",
-        "heading": "Grab these hot deals on",
-        "rotating_words": "Kitchen,Gadgets,Cooling",
-        "text": "Limited-time prices on our most useful picks. Grab them before they are gone.",
-        "button_label": "Shop All",
-        "button_link": "shopify://collections/all"
-      }
-    },
-    "videos": {
-      "type": "ms-videos",
-      "blocks": {
-        "v1": {
-          "type": "video",
-          "settings": {
-            "product": "mini-ac-cooling-fan"
-          }
-        },
-        "v2": {
-          "type": "video",
-          "settings": {
-            "product": "t800-ultra-smart-watch"
-          }
-        },
-        "v3": {
-          "type": "video",
-          "settings": {
-            "product": "portable-blender-juicer-bottle"
-          }
-        },
-        "v4": {
-          "type": "video",
-          "settings": {
-            "product": "design-ultra-deep-massage-gun"
-          }
-        },
-        "v5": {
-          "type": "video",
-          "settings": {
-            "product": "2-in-one-oil-bottel"
-          }
-        }
-      },
-      "block_order": [
-        "v1",
-        "v2",
-        "v3",
-        "v4",
-        "v5"
-      ],
-      "settings": {
-        "heading": "See It In Action 🎬",
-        "show_empty": true,
-        "add_label": "Add to cart"
-      }
-    },
-    "quote": {
-      "type": "ms-quote",
-      "settings": {}
     },
     "promo": {
       "type": "ms-promo-banner",
@@ -543,21 +526,20 @@
         "button_label": "Shop Gifts",
         "button_link": "shopify://collections/gifts",
         "image_position": "right",
-        "text_color": "#FFFFFF",
-        "color_1": "#1F6B45",
-        "color_2": "#7BC9A0"
+        "text_color": "#ffffff",
+        "color_1": "#1f6b45",
+        "color_2": "#7bc9a0",
+        "background": ""
       }
     },
     "reviews": {
       "type": "ms-reviews",
-      "settings": {
-        "heading": "Verified Customer Reviews 🌼"
-      },
       "blocks": {
         "v0": {
           "type": "review",
           "settings": {
             "rating": 5,
+            "date": "",
             "title": "Review title",
             "text": "Paste a real customer review here.",
             "name": "Customer name",
@@ -569,6 +551,7 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "date": "",
             "title": "Review title",
             "text": "Paste a real customer review here.",
             "name": "Customer name",
@@ -580,6 +563,7 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "date": "",
             "title": "Review title",
             "text": "Paste a real customer review here.",
             "name": "Customer name",
@@ -591,6 +575,7 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "date": "",
             "title": "Review title",
             "text": "Paste a real customer review here.",
             "name": "Customer name",
@@ -604,7 +589,111 @@
         "v1",
         "v2",
         "v3"
-      ]
+      ],
+      "settings": {
+        "rating_text": "",
+        "heading": "Verified Customer Reviews 🌼",
+        "background": ""
+      }
+    },
+    "deals": {
+      "type": "ms-deals",
+      "blocks": {
+        "o1": {
+          "type": "offer",
+          "settings": {
+            "link": "shopify://collections/under-999",
+            "small": "Shop",
+            "big": "Under Rs 999",
+            "note": "Budget-friendly picks",
+            "text_color": "#ffffff",
+            "color_1": "#f08a3e",
+            "color_2": "#f7b267"
+          }
+        },
+        "o3": {
+          "type": "offer",
+          "settings": {
+            "link": "shopify://collections/travel-essentials",
+            "small": "On the go",
+            "big": "Travel Essentials",
+            "note": "Pack smart for every trip",
+            "text_color": "#ffffff",
+            "color_1": "#2e8b57",
+            "color_2": "#7bc9a0"
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o3"
+      ],
+      "settings": {
+        "eyebrow": "Big savings 💸",
+        "heading": "Grab these hot deals on",
+        "rotating_words": "Kitchen,Gadgets,Cooling",
+        "text": "Limited-time prices on our most useful picks. Grab them before they are gone.",
+        "button_label": "Shop All",
+        "button_link": "shopify://collections/all",
+        "background": ""
+      }
+    },
+    "videos": {
+      "type": "ms-videos",
+      "blocks": {
+        "v2": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "product": "t800-ultra-smart-watch",
+            "caption": ""
+          }
+        },
+        "v3": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "product": "portable-blender-juicer-bottle",
+            "caption": ""
+          }
+        },
+        "v4": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "product": "design-ultra-deep-massage-gun",
+            "caption": ""
+          }
+        },
+        "v5": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "product": "2-in-one-oil-bottel",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "v2",
+        "v3",
+        "v4",
+        "v5"
+      ],
+      "settings": {
+        "heading": "See It In Action 🎬",
+        "add_label": "Add to cart",
+        "show_empty": true,
+        "background": ""
+      }
+    },
+    "quote": {
+      "type": "ms-quote",
+      "settings": {
+        "quote": "<p>“Useful things, honest prices and delivery to your door. We pick every product as if it were for our own home.”</p>",
+        "signature": "With love,\nTeam MoonSoonMall 💚",
+        "background": ""
+      }
     }
   },
   "order": [
