@@ -2555,5 +2555,20 @@
         "default": true
       }
     ]
+  },
+  {
+    "name": "MoonSoon link preview",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Image shown when someone shares a link to the store on WhatsApp, Facebook, etc. Product pages use the product photo. Pages with a Social sharing image (Online Store → Preferences) use that one."
+      },
+      {
+        "type": "image_picker",
+        "id": "ms_share_image",
+        "label": "Link preview image",
+        "info": "1200 × 630 px. Empty = built-in MoonSoonMall image."
+      }
+    ]
   }
 ]
