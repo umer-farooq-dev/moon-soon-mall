@@ -71,6 +71,19 @@
     property="og:image:height"
     content="{{ page_image.height }}"
   >
+{%- else -%}
+  {%- comment -%} MoonSoon: link preview image when the page has none (Theme settings → MoonSoon link preview) {%- endcomment -%}
+  {%- if settings.ms_share_image != blank -%}
+    <meta property="og:image" content="http:{{ settings.ms_share_image | image_url: width: 1200 }}">
+    <meta property="og:image:secure_url" content="https:{{ settings.ms_share_image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="{{ 1200 | divided_by: settings.ms_share_image.aspect_ratio | round }}">
+  {%- else -%}
+    <meta property="og:image" content="https:{{ 'ms-share.jpg' | asset_url }}">
+    <meta property="og:image:secure_url" content="https:{{ 'ms-share.jpg' | asset_url }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+  {%- endif -%}
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
