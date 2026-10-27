@@ -136,7 +136,7 @@
     "blocks": {
       "8208493610395315515": {
         "type": "shopify://apps/dondy-whatsapp/blocks/app-block/7f5a70cb-e171-4cc7-ac02-e2220203abd6",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       },
       "13669795325273674392": {
@@ -156,7 +156,12 @@
       "color6": "#F08A3E",
       "color7": "#FFF5C4",
       "color8": "#6B7C72"
-    }
+    },
+    "ms_wa_number": "923478653632",
+    "ms_wa_label": "Chat with us",
+    "ms_wa_message": "Hi MoonSoonMall! I have a question.",
+    "ms_wa_position": "right",
+    "ms_wa_product_message": true
   },
   "presets": {
     "Default": {
