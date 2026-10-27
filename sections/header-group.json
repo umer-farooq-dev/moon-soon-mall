@@ -25,9 +25,17 @@
         "m2": {
           "type": "message",
           "settings": {
-            "text": "Big discounts on fans & cooling",
-            "link": "shopify://collections/summer-cooling",
+            "text": "BEST UTILITY GADGETS AT UNBEATABLE PRICE",
+            "link": "shopify://collections/electronics-gadgets",
             "link_label": "Shop now"
+          }
+        },
+        "message_ULQVQV": {
+          "type": "message",
+          "settings": {
+            "text": "",
+            "link": "",
+            "link_label": ""
           }
         },
         "m3": {
@@ -42,11 +50,12 @@
       "block_order": [
         "m1",
         "m2",
+        "message_ULQVQV",
         "m3"
       ],
       "settings": {
-        "background": "#2E8B57",
-        "text_color": "#FFFFFF",
+        "background": "#2e8b57",
+        "text_color": "#ffffff",
         "speed": 40,
         "pause_on_hover": true
       }
@@ -54,13 +63,14 @@
     "ms_header": {
       "type": "ms-header",
       "blocks": {
-        "c2": {
+        "c1": {
           "type": "drawer_card",
+          "disabled": true,
           "settings": {
-            "title": "Summer Cooling",
-            "subtitle": "Fans and coolers for hot days",
-            "link": "shopify://collections/summer-cooling",
-            "background": "#FFF5C4"
+            "title": "Best Sellers",
+            "subtitle": "Our most loved products",
+            "link": "shopify://collections/best-sellers",
+            "background": "#dff3e7"
           }
         },
         "c3": {
@@ -69,16 +79,17 @@
             "title": "New Arrivals",
             "subtitle": "Fresh picks every week",
             "link": "shopify://collections/new-arrivals",
-            "background": "#DFF3E7"
+            "background": "#dff3e7"
           }
         },
-        "c1": {
+        "c2": {
           "type": "drawer_card",
+          "disabled": true,
           "settings": {
-            "title": "Best Sellers",
-            "subtitle": "Our most loved products",
-            "link": "shopify://collections/best-sellers",
-            "background": "#DFF3E7"
+            "title": "Summer Cooling",
+            "subtitle": "Fans and coolers for hot days",
+            "link": "shopify://collections/summer-cooling",
+            "background": "#fff5c4"
           }
         }
       },
@@ -93,12 +104,21 @@
         "sticky": false,
         "logo_width": 170,
         "logo_width_mobile": 110,
+        "nav_font_size": 15,
+        "nav_item_space": 13,
+        "logo_text_size": 34,
+        "bar_padding": 32,
+        "bar_padding_mobile": 12,
+        "search_height": 44,
         "show_search": true,
         "search_placeholder": "Search products",
         "search_collection": "best-sellers",
         "cta_label": "Best Sellers",
         "cta_link": "shopify://collections/best-sellers",
-        "cart_label": "Cart"
+        "cart_label": "Cart",
+        "bar_bg": "",
+        "nav_bg": "",
+        "text_color": ""
       }
     }
   },
